@@ -5,17 +5,16 @@
       "scheda": "Preparazione del torneo",
       "esempi": [
         {
-          "titolo": "Creare la struttura dei bui (con rebuy)",
-          "situazione": "Siete in 6, 10.000 fiches a testa, volete finire in circa 3 ore e di solito ci sono 3–4 rebuy.",
+          "titolo": "Creare la struttura dei bui",
+          "situazione": "Siete in 6, 10.000 fiches a testa, volete finire in circa 3 ore.",
           "passi": [
             "Tocca la parte sinistra della barra in alto (⚙) → scheda 1 · Struttura.",
             "Partecipanti: 6. Stack iniziale: 10.000. Durata: 3 h. Ante: Nessuna.",
-            "Senza rebuy la proposta è 12 livelli da 15 minuti, dal BB 100 al BB 4.000.",
-            "Metti Rebuy previsti = 4: le fiches in gioco passano da 60.000 a 100.000 e la proposta diventa 15 livelli da 12 minuti, fino al BB 6.000.",
+            "La proposta è 12 livelli da 15 minuti, dal BB 100 al BB 4.000.",
             "Premi Usa questa struttura. Si apre la scheda In gioco: controlla livello 1 e il tuo stack (= iniziale)."
           ],
-          "risultato": "Una struttura che finisce nel tempo previsto anche con i rebuy. I livelli con * sono di riserva.",
-          "impari": "Più fiches in gioco (rebuy) = bui che devono arrivare più in alto per chiudere nello stesso tempo."
+          "risultato": "Una struttura che finisce in circa 3 ore. I livelli con * sono di riserva: se con i rebuy il torneo si allunga, si continua con quelli.",
+          "impari": "Il numero di livelli non è fisso: dipende da quanti siete, dalle fiches e dal tempo."
         },
         {
           "titolo": "Avviare e condividere il timer",
@@ -39,7 +38,7 @@
           "passi": [
             "Tocca il tuo stack nella barra in alto (✎).",
             "Premi Ho raddoppiato (oppure +5 BB, +10 BB… o scrivi il valore esatto).",
-            "Se fai un rebuy premi + Rebuy: aggiunge uno stack iniziale."
+            "Se esci e rientri con un rebuy premi Sono rientrato: lo stack torna a quello iniziale."
           ],
           "risultato": "La barra mostra 60 BB e la fascia diventa 40+ BB: range e consigli si adattano da soli.",
           "impari": "Lo stack in fiches lo aggiorni tu; i BB invece scendono da soli quando salgono i bui. Il pulsante BB⇄ alterna BB e fiches."
@@ -167,9 +166,11 @@
       "esempi": [
         {
           "titolo": "Accordo finale con i rebuy",
-          "situazione": "6 iscritti a 10 € più 4 rebuy da 10 € = 100 € di montepremi, premi 60 / 30 / 10. Restate in 3 con 30.000, 20.000 e 10.000 fiches.",
+          "situazione": "6 iscritti a 10 €; durante la serata ci sono stati 4 rebuy da 10 €. Restate in 3 con 30.000, 20.000 e 10.000 fiches.",
           "passi": [
-            "Scheda ICM → Premi: 60, 30, 10 (i rebuy sono già compresi nel montepremi).",
+            "Scheda ICM → apri Calcola i premi dal montepremi.",
+            "Quota 10 €, Rebuy fatti 4, Costo di un rebuy 10 €, divisione 60/30/10 → 6 × 10 + 4 × 10 = 100 €: 1° 60, 2° 30, 3° 10.",
+            "Premi Usa questi premi.",
             "Giocatori: 30000, 20000, 10000."
           ],
           "risultato": "ICM: 42,00 € / 34,67 € / 23,33 €. Chip chop: 50 / 33,33 / 16,67. Diviso uguale: 33,33 a testa.",

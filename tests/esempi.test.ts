@@ -6,7 +6,7 @@ import { buildTables, topPercentRange } from '../src/engine/preflopEquity.ts';
 import { solvePushFold } from '../src/engine/pushfold.ts';
 import { handIndex } from '../src/engine/ranges.ts';
 import { countOuts } from '../src/engine/outs.ts';
-import { icm } from '../src/engine/icm.ts';
+import { icm, prizePool, prizesFromPool } from '../src/engine/icm.ts';
 import { requiredEquityFromPot, callEV, spr } from '../src/engine/odds.ts';
 import { baseOpenRange } from '../src/engine/openRanges.ts';
 import { seatsFor, nextHandSeat } from '../src/engine/positions.ts';
@@ -26,11 +26,9 @@ describe('esempi passo passo', () => {
       expect(e.risultato.length).toBeGreaterThan(10);
     }
   });
-  it('struttura: 6×10.000 in 3 h; con 4 rebuy', () => {
-    const a = generateStructure({ entrants: 6, startingStack: 10000, hours: 3, levelMin: 0, ante: 'none', rebuys: 0 });
+  it('struttura: 6×10.000 in 3 h', () => {
+    const a = generateStructure({ entrants: 6, startingStack: 10000, hours: 3, levelMin: 0, ante: 'none' });
     expect([a.planned, a.levelMin, a.levels[0].bb, a.endBB, a.totalChips]).toEqual([12, 15, 100, 4000, 60000]);
-    const b = generateStructure({ entrants: 6, startingStack: 10000, hours: 3, levelMin: 0, ante: 'none', rebuys: 4 });
-    expect([b.planned, b.levelMin, b.endBB, b.totalChips]).toEqual([15, 12, 6000, 100000]);
   });
   it('preflop: A7o dal CO = raise; 44 dall\'HJ raise a 40+ e fold a 20–40', () => {
     expect(baseOpenRange('prudente', 'deep', seat(8, 'CO'))![handIndex('A7o')]).toBe(1);
@@ -90,7 +88,12 @@ describe('esempi passo passo', () => {
     expect(bb[handIndex('A5o')]).toBe(1);
     expect(bb[handIndex('K9o')]).toBe(0);
   });
-  it('ICM con rebuy: 30k/20k/10k, premi 60/30/10 → 42,00 / 34,67 / 23,33', () => {
+  it('ICM con rebuy: 6×10 + 4×10 = 100 → 60/30/10; 30k/20k/10k → 42,00 / 34,67 / 23,33', () => {
+    const pool = prizePool(6, 10, 4, 10);
+    expect(pool).toBe(100);
+    expect(prizesFromPool(pool, [60, 30, 10])).toEqual([60, 30, 10]);
+    expect(prizesFromPool(70, [65, 35])).toEqual([45, 25]);   // euro interi, il resto al 1°
+    expect(prizesFromPool(80, [100])).toEqual([80]);
     const v = icm([30000, 20000, 10000], [60, 30, 10]);
     expect(v.map((x) => +x.toFixed(2))).toEqual([42, 34.67, 23.33]);
   });

@@ -31,9 +31,7 @@ function StructureTab({ onDone }: { onDone: () => void }) {
   const [hours, setHours] = useState(c.gen.hours);
   const [levelMin, setLevelMin] = useState(c.gen.levelMin);
   const [ante, setAnte] = useState<AnteType>(c.anteType);
-  const [rebuys, setRebuys] = useState(c.gen.rebuys ?? 0);
-
-  const g = useMemo(() => generateStructure({ entrants, startingStack: stack, hours, levelMin, ante, rebuys }), [entrants, stack, hours, levelMin, ante, rebuys]);
+  const g = useMemo(() => generateStructure({ entrants, startingStack: stack, hours, levelMin, ante }), [entrants, stack, hours, levelMin, ante]);
   const inUse = JSON.stringify(g.levels) === JSON.stringify(c.levels) && c.startingStack === stack && c.entrants === entrants;
 
   const apply = () => {
@@ -46,7 +44,7 @@ function StructureTab({ onDone }: { onDone: () => void }) {
       x.config.levels = g.levels.map((l) => ({ ...l }));
       x.config.levelIndex = 0;
       x.config.anteType = ante;
-      x.config.gen = { hours, levelMin, rebuys };
+      x.config.gen = { hours, levelMin };
       x.config.structureId = 'generata';
       x.timer = { running: false, startedAt: 0, elapsedBefore: 0 };
     });
@@ -72,9 +70,6 @@ function StructureTab({ onDone }: { onDone: () => void }) {
       <div class="chips mb">
         {HOURS.map((h) => <button type="button" key={h} class={'chip' + (hours === h ? ' on' : '')} style={{ minWidth: '52px' }} onClick={() => setHours(h)}>{fmtNum(h)} h</button>)}
       </div>
-
-      <NumField label="Rebuy previsti in tutto il torneo (stima)" value={rebuys} min={0} max={30} onChange={(v) => setRebuys(Math.round(v))}
-        hint={rebuys ? `+${fmtChips(rebuys * stack)} fiches in gioco: i bui arrivano un po' più in alto per chiudere nel tempo.` : 'Se fate rebuy, stimate quanti in totale: le loro fiches allungano il torneo.'} />
 
       <label class="field"><span>Ante (facoltative)</span></label>
       <div class="mb"><Seg value={ante} onChange={setAnte} options={[{ v: 'none', l: 'Nessuna' }, { v: 'testa', l: 'A testa' }, { v: 'bb', l: 'BB ante' }]} /></div>

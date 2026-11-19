@@ -160,7 +160,9 @@
         "In un torneo le fiches non valgono soldi in modo diretto: se hai metà delle fiches non vinci metà del montepremi, perché il primo premio va a uno solo e gli altri prendono comunque qualcosa.",
         "L'ICM (Independent Chip Model) stima quanto vale in premi il tuo stack, in base agli stack di tutti e ai premi in palio.",
         "Serve soprattutto per gli accordi finali: invece di giocare fino all'ultimo, vi dividete il montepremi in modo equo. \"Chip chop\" invece divide in proporzione alle fiches, e favorisce chi ne ha di più.",
-        "Conseguenza al tavolo: vicino ai premi perdere lo stack costa più di quanto renda raddoppiarlo, quindi i call all-in vanno fatti più stretti."
+        "Conseguenza al tavolo: vicino ai premi perdere lo stack costa più di quanto renda raddoppiarlo, quindi i call all-in vanno fatti più stretti.",
+        "Rebuy: cambiano solo quanti soldi ci sono in palio. Contateli a fine serata e usate \"Calcola i premi dal montepremi\"; negli stack mettete le fiches che ognuno ha in quel momento.",
+        "È facoltativa: se paga solo il primo, o se tra gli ultimi vi dividete in parti uguali, non vi serve."
       ],
       "esempio": "Restate in 3 con 5000, 3000 e 2000 fiches e premi 50/30/20. Il chip leader ha il 50% delle fiches, ma l'ICM gli dà 38,4, non 50.",
       "alTavolo": "Scrivi i premi e gli stack di chi è rimasto: la colonna ICM è una divisione equa da proporre."

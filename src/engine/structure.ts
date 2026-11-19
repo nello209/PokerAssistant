@@ -13,8 +13,6 @@ export interface GenParams {
   hours: number;           // durata massima desiderata
   levelMin: number;        // 0 = automatico
   ante: AnteMode;
-  /** rebuy previsti in tutto il torneo (ognuno aggiunge uno stack iniziale di fiches) */
-  rebuys?: number;
 }
 
 export interface GenLevel { sb: number; bb: number; ante: number; min: number; extra?: boolean }
@@ -73,7 +71,7 @@ export function generateStructure(p: GenParams): GenResult {
   const entrants = Math.max(2, Math.round(p.entrants));
   const stack = Math.max(10, p.startingStack);
   const minutes = Math.max(30, p.hours * 60);
-  const T = (entrants + Math.max(0, Math.round(p.rebuys ?? 0))) * stack;
+  const T = entrants * stack;
   const endBBTarget = T / 15;
   const levelOptions = p.levelMin > 0 ? [p.levelMin] : [30, 25, 20, 15, 12, 10];
   const depths = [100, 75, 50, 40, 30, 20];

@@ -30,8 +30,7 @@ export function QuickStack({ onClose }: { onClose: () => void }) {
       <div class="qs-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
         <button type="button" class="btn qs-minus" onClick={() => set(my / 2)}>Ho perso metà</button>
         <button type="button" class="btn qs-plus" onClick={() => set(my * 2)}>Ho raddoppiato</button>
-        <button type="button" class="btn" onClick={() => set(my + s.config.startingStack)}>+ Rebuy</button>
-        <button type="button" class="btn" onClick={() => set(s.config.startingStack)}>= Iniziale</button>
+        <button type="button" class="btn" style={{ gridColumn: '1 / -1' }} onClick={() => set(s.config.startingStack)}>Sono rientrato: = stack iniziale</button>
       </div>
 
       <NumField label={`Oppure scrivi il valore esatto (${inBB ? 'BB' : 'fiches'})`} value={inBB ? Math.round((my / bb) * 10) / 10 : my} step={inBB ? 1 : bb}

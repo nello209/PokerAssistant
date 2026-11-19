@@ -1,8 +1,37 @@
 import { useState } from 'preact/hooks';
 import { useAppState, setState, fmtNum, fmtChips } from '../state.ts';
-import { icm } from '../engine/icm.ts';
+import { icm, prizePool, prizesFromPool } from '../engine/icm.ts';
 import guida from '../data/guida.json';
 import { InfoInline } from '../components/Info.tsx';
+import { NumField, Seg } from '../components/ui.tsx';
+
+const SPLITS = ['100', '65/35', '60/30/10', '50/30/20'];
+
+function PoolCard({ onUse }: { onUse: (p: number[]) => void }) {
+  const s = useAppState();
+  const p = s.pool;
+  const entrants = s.config.entrants;
+  const upd = (patch: Partial<typeof p>) => setState((x) => { x.pool = { ...x.pool, ...patch }; });
+  const total = prizePool(entrants, p.buyIn, p.rebuys, p.rebuyCost);
+  const prizes = prizesFromPool(total, p.split.split('/').map(Number));
+  return (
+    <details class="card">
+      <summary>Calcola i premi dal montepremi (con i rebuy)</summary>
+      <p class="tiny muted">Contate i rebuy durante la serata (o alla fine): qui servono solo per sapere quanti soldi ci sono in palio.</p>
+      <NumField label="Quota d'iscrizione (€)" value={p.buyIn} step={5} onChange={(v) => upd({ buyIn: v })} />
+      <NumField label="Rebuy fatti in tutto" value={p.rebuys} min={0} max={99} onChange={(v) => upd({ rebuys: Math.round(v) })} />
+      <NumField label="Costo di un rebuy (€)" value={p.rebuyCost} step={5} onChange={(v) => upd({ rebuyCost: v })} />
+      <label class="field"><span>Come dividete i premi (%)</span></label>
+      <div class="mb"><Seg value={p.split} onChange={(v) => upd({ split: v })} options={SPLITS.map((x) => ({ v: x, l: x === '100' ? 'Tutto al 1°' : x }))} /></div>
+      <div class="small mb">
+        {entrants} iscritti × {fmtNum(p.buyIn, 2)} €{p.rebuys ? ` + ${p.rebuys} rebuy × ${fmtNum(p.rebuyCost, 2)} €` : ''} = <b>{fmtNum(total, 2)} €</b><br />
+        {prizes.map((x, i) => <span key={i}>{i ? ' · ' : ''}{i + 1}° <b>{fmtNum(x, 2)} €</b></span>)}
+      </div>
+      <button type="button" class="btn primary block" onClick={() => onUse(prizes)}>Usa questi premi</button>
+      <p class="tiny muted">Gli iscritti ({entrants}) sono quelli della configurazione (⚙ → Struttura).</p>
+    </details>
+  );
+}
 
 interface P { name: string; stack: number }
 
@@ -29,6 +58,7 @@ export function Icm() {
   return (
     <div>
       <div class="mb"><InfoInline info="icm" /></div>
+      <PoolCard onUse={setPrizes} />
       <div class="card">
         <div class="slot-label">Premi (dal 1° posto)</div>
         {prizes.map((p, i) => (

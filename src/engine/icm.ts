@@ -1,5 +1,16 @@
 // ICM Malmuth-Harville per N giocatori, con programmazione dinamica sui sottoinsiemi (N ≤ ~14).
 
+/** Montepremi = iscrizioni + rebuy effettivamente fatti. */
+export function prizePool(entrants: number, buyIn: number, rebuys: number, rebuyCost: number): number {
+  return Math.max(0, entrants) * Math.max(0, buyIn) + Math.max(0, rebuys) * Math.max(0, rebuyCost);
+}
+
+/** Divide il montepremi in percentuali, in euro interi; l'arrotondamento va al 1° premio. */
+export function prizesFromPool(pool: number, percents: number[]): number[] {
+  const rest = percents.slice(1).map((p) => Math.round((pool * p) / 100));
+  return [Math.round((pool - rest.reduce((a, b) => a + b, 0)) * 100) / 100, ...rest];
+}
+
 /**
  * Restituisce, per ogni giocatore, il valore atteso in premi.
  * prob[mask] = probabilità che i giocatori in mask occupino (in qualche ordine) i primi |mask| posti.

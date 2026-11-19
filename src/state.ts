@@ -6,7 +6,10 @@ import { generateStructure, type AnteMode } from './engine/structure.ts';
 export interface Level { sb: number; bb: number; ante: number; min: number; extra?: boolean }
 export type AnteType = AnteMode;
 
-export interface GenSettings { hours: number; levelMin: number; rebuys?: number }
+export interface GenSettings { hours: number; levelMin: number }
+
+/** Montepremi per l'ICM: i rebuy si contano qui, a fine torneo, quando si sa quanti sono stati. */
+export interface PoolSettings { buyIn: number; rebuyCost: number; rebuys: number; split: string }
 
 export interface Config {
   /** giocatori ancora seduti al tavolo (decide le posizioni) */
@@ -42,6 +45,7 @@ export interface AppState {
   timer: TimerState;
   settings: Settings;
   prizes: number[];
+  pool: PoolSettings;
 }
 
 const KEY = 'tavolo-state-v1';
@@ -71,6 +75,7 @@ export function defaultState(): AppState {
     timer: { running: false, startedAt: 0, elapsedBefore: 0 },
     settings: { wakeLock: true, discreet: false, timerDrivesLevel: true, seenSetup: false, unit: 'bb' },
     prizes: [50, 30, 20],
+    pool: { buyIn: 10, rebuyCost: 10, rebuys: 0, split: '60/30/10' },
   };
 }
 
@@ -82,7 +87,7 @@ function load(): AppState {
       const d = defaultState();
       const config = { ...d.config, ...parsed.config };
       if (!parsed.config?.entrants) config.entrants = config.players;
-      return { ...d, ...parsed, config, settings: { ...d.settings, ...parsed.settings }, timer: { ...d.timer, ...parsed.timer } };
+      return { ...d, ...parsed, config, settings: { ...d.settings, ...parsed.settings }, pool: { ...d.pool, ...parsed.pool }, timer: { ...d.timer, ...parsed.timer } };
     }
   } catch { /* storage non disponibile: si riparte dai default */ }
   return defaultState();
