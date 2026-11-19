@@ -64,7 +64,8 @@
         "Le mani da giocare cambiano con la profondità dello stack. Con tanti BB (40+) le mani \"speculative\" (coppie basse, suited connector come 76s) rendono, perché se chiudi un punto forte puoi vincere molto.",
         "Fra 20 e 40 BB e fra 10 e 20 BB queste mani rendono meno: l'app le toglie dai primi posti.",
         "Sotto i 10 BB non conviene più rilanciare e giocare dopo il flop: si va all-in (shove) o si folda. È il push/fold.",
-        "\"Auto\" sceglie la fascia dal tuo stack effettivo; puoi forzarne una a mano per studiare."
+        "\"Auto\" sceglie la fascia dal tuo stack effettivo in BB: il tuo stack (oppure, se hai scritto gli stack degli avversari, il minore fra il tuo e quello del più grande avversario) diviso il big blind del livello attuale. Puoi forzare una fascia a mano per studiare.",
+        "Lo stack in fiches non si aggiorna da solo (l'app non vede il tavolo): lo aggiorni tu toccandolo nella barra in alto. I BB invece scendono da soli quando il timer alza i bui, quindi la fascia può cambiare anche senza che tu tocchi niente."
       ],
       "esempio": "Con 25 BB in UTG l'app non ti fa aprire 33 o 65s, che invece a 50 BB sono giocabili da posizioni più avanzate.",
       "alTavolo": "Lascia \"Auto\" e tieni aggiornato lo stack nella barra in alto."

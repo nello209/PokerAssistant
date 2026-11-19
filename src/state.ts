@@ -6,7 +6,7 @@ import { generateStructure, type AnteMode } from './engine/structure.ts';
 export interface Level { sb: number; bb: number; ante: number; min: number; extra?: boolean }
 export type AnteType = AnteMode;
 
-export interface GenSettings { hours: number; levelMin: number }
+export interface GenSettings { hours: number; levelMin: number; rebuys?: number }
 
 export interface Config {
   /** giocatori ancora seduti al tavolo (decide le posizioni) */

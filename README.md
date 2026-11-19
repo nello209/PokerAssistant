@@ -6,14 +6,14 @@ App per il telefono (PWA) da tenere aperta al tavolo. Funziona **senza internet*
 non ha server né login, e tutti i dati restano sul telefono.
 
 Ogni sezione ha un pulsante **ⓘ Cos'è?** con una spiegazione semplice e un esempio. In *Altro → Guida*
-c'è anche un glossario completo.
+ci sono gli **esempi passo passo** di ogni funzione (con i numeri che l'app calcola davvero) e un glossario completo.
 
 | Scheda | A cosa serve |
 |---|---|
-| **Barra in alto** | Livello, bui, il tuo stack, stack effettivo, M, fascia di stack. A sinistra (⚙) apri la configurazione; tocca lo stack a destra (⇄) per passare da **BB a fiches** e viceversa. |
-| **Configurazione: Struttura** | Partecipanti, stack iniziale, durata massima (1–6 ore), ante facoltative (nessuna / a testa / BB ante), durata dei livelli → l'app **genera la struttura dei bui** con orari, bui arrotondati a valori comodi e livelli di riserva. |
+| **Barra in alto** | Livello, bui, il tuo stack, stack effettivo, M, fascia di stack. A sinistra (⚙) apri la configurazione; tocca lo stack (✎) per **aggiornarlo al volo** (±BB, raddoppiato, metà, rebuy); il pulsante **BB⇄** passa da BB a fiches. A ogni nuovo livello compare un promemoria per controllare lo stack. |
+| **Configurazione: Struttura** | Partecipanti, stack iniziale, durata massima (1–6 ore), **rebuy previsti**, ante facoltative (nessuna / a testa / BB ante), durata dei livelli → l'app **genera la struttura dei bui** con orari, bui arrotondati a valori comodi e livelli di riserva. |
 | **Configurazione: In gioco** | Livello attuale (o lo aggiorna il timer), giocatori ancora al tavolo, il tuo stack e quello degli avversari in BB o fiches. |
-| **Preflop** | Range di apertura 13×13 per la tua posizione, adattato al numero di giocatori e allo stack. Profili Prudente (dal foglio Excel) e Standard. Celle modificabili. Sotto i 10 BB passa da solo al push/fold. |
+| **Preflop** | Scegli il tuo posto toccandolo su un **tavolo disegnato** (con il bottone D); "Mano dopo ⟳" sposta la posizione di un posto. Range di apertura 13×13 per la tua posizione, adattato al numero di giocatori e allo stack. Profili Prudente (dal foglio Excel) e Standard. Celle modificabili. Sotto i 10 BB passa da solo al push/fold. |
 | **Mano** | Selettore carte rapido → "Cosa ho", outs puliti con percentuali, equity contro 1–9 avversari (mano precisa, range o casuale), pot odds con verdetto CALL +EV / FOLD. |
 | **Push/Fold** | Range di shove e di call contro shove calcolati con l'equilibrio di Nash (heads-up esatto nel modello, tavolo pieno approssimato). |
 | **ICM** | Valore in premi degli stack (Malmuth-Harville), chip chop e divisione uguale, per gli accordi finali. |
@@ -45,8 +45,8 @@ Altri comandi utili:
 ```powershell
 npm test
 ```
-Esegue i 73 test automatici: valutatore delle mani su tutte le 133.784.560 mani da 7 carte, equity (AA vs KK ≈ 82%),
-formule della Fase 1, ICM, posizioni, push/fold, generatore della struttura dei bui (375 scenari) ed esempi delle spiegazioni.
+Esegue gli 86 test automatici: valutatore delle mani su tutte le 133.784.560 mani da 7 carte, equity (AA vs KK ≈ 82%),
+formule della Fase 1, ICM, posizioni, push/fold, generatore della struttura dei bui (375 scenari), spiegazioni ed esempi passo passo.
 
 ```powershell
 npm run build

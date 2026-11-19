@@ -9,6 +9,8 @@ import { calc } from '../worker/client.ts';
 import type { PushFoldResult } from '../engine/pushfold.ts';
 import guida from '../data/guida.json';
 import { SecHead, InfoInline } from '../components/Info.tsx';
+import { TableSeats } from '../components/TableSeats.tsx';
+import { nextHandSeat } from '../engine/positions.ts';
 
 export function Preflop() {
   const s = useAppState();
@@ -50,11 +52,11 @@ export function Preflop() {
 
   return (
     <div>
-      <SecHead label="Sono in posizione" info="posizioni" />
-      <div class="chips mb">
-        {seats.map((x) => (
-          <button type="button" key={x.key} class={'chip' + (x.key === seat.key ? ' on' : '')} onClick={() => { setState((st) => { st.mySeat = x.key; }); setSel(null); }}>{x.name}</button>
-        ))}
+      <SecHead label="La mia posizione" info="posizioni" />
+      <TableSeats seats={seats} selected={seat.key} onPick={(k) => { setState((st) => { st.mySeat = k; }); setSel(null); }} />
+      <div class="row mb">
+        <div class="grow small"><b>{seat.name}</b> <span class="muted">· {isHU ? 'heads-up' : `${seat.behind} giocatori parlano dopo di te`}</span></div>
+        <button type="button" class="btn sm" onClick={() => { setState((st) => { st.mySeat = nextHandSeat(seats, seat.key); }); setSel(null); }}>Mano dopo ⟳</button>
       </div>
 
       <SecHead label="Profondità dello stack" info="fasce" />

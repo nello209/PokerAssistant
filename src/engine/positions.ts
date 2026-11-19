@@ -19,6 +19,17 @@ const EQ8: Record<number, string> = {
   7: 'UTG', 6: 'UTG+1', 5: 'LJ / MP', 4: 'HJ', 3: 'CO', 2: 'BTN', 1: 'SB', 0: 'BB',
 };
 
+/** Posizione nella mano successiva: il bottone passa al giocatore alla sinistra, quindi tu "scali" di un posto. */
+export function nextHandSeat(seats: Seat[], current: string): string {
+  const n = seats.length;
+  const btnIdx = seats.findIndex((s) => s.key === 'b2' || s.key === 'hu-sb');
+  const clockwise = Array.from({ length: n }, (_, k) => seats[(btnIdx + k) % n]);
+  const i = clockwise.findIndex((s) => s.key === current);
+  if (i < 0) return current;
+  // il bottone si muove in senso orario: rispetto al bottone tu arretri di un posto
+  return clockwise[(i - 1 + n) % n].key;
+}
+
 export function seatsFor(players: number): Seat[] {
   if (players < 2 || players > 10) throw new Error('Giocatori fra 2 e 10');
   if (players === 2) {

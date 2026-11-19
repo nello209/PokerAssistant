@@ -19,7 +19,8 @@
   --tap: 48px;
   color-scheme: dark;
 }
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+/* touch-action: manipulation = niente zoom con il doppio tocco (il pizzico con due dita resta) */
 html, body { margin: 0; background: var(--bg); color: var(--text); }
 body {
   font: 16px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -33,8 +34,8 @@ button { cursor: pointer; }
 .app { display: flex; flex-direction: column; min-height: 100dvh; max-width: 640px; margin: 0 auto; }
 
 /* --- Barra in alto */
+.top-sticky { position: sticky; top: 0; z-index: 10; }
 .topbar {
-  position: sticky; top: 0; z-index: 10;
   background: var(--bg2); border-bottom: 1px solid var(--line);
   padding: calc(env(safe-area-inset-top) + 6px) 12px 6px;
   display: flex; gap: 10px; align-items: center; width: 100%;
@@ -44,6 +45,7 @@ button { cursor: pointer; }
 .topbar .lvl b { color: var(--text); font-size: 15px; }
 .topbar .stack { margin-left: auto; text-align: right; line-height: 1.15; }
 .topbar .unit-sw { font-size: 13px; color: var(--gold); vertical-align: 3px; }
+.topbar .unit-btn { flex: none; width: 42px; border: 1px solid var(--line) !important; border-radius: 10px; background: var(--bg3) !important; color: var(--gold); font-size: 11px; font-weight: 700; line-height: 1.2; }
 .topbar .stack .big { font-size: 20px; font-weight: 700; }
 .topbar .stack .small { font-size: 12px; color: var(--muted); }
 .zone { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid var(--line); }
@@ -125,6 +127,29 @@ input[type=range] { width: 100%; accent-color: var(--gold); height: 32px; }
 .stepper button:first-child { border-radius: 10px 0 0 10px; }
 .stepper button:last-child { border-radius: 0 10px 10px 0; }
 .stepper input { border-radius: 0; text-align: center; border-left: 0; border-right: 0; }
+
+/* --- Stack rapido e promemoria */
+.qs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.qs-grid .btn { padding: 0 6px; font-size: 15px; }
+.qs-minus { color: var(--red); }
+.qs-plus { color: var(--green); }
+.reminder { display: flex; align-items: center; gap: 8px; background: #2a2210; border-bottom: 1px solid var(--gold-dim); padding: 8px 12px; font-size: 14px; }
+.reminder b { color: var(--gold); }
+
+/* --- Tavolo per scegliere la posizione */
+.table-wrap { margin: 0 0 6px; }
+.table-svg { width: 100%; height: auto; display: block; user-select: none; }
+.table-svg .felt { fill: #12301f; stroke: #2b5a3d; stroke-width: 3; }
+.table-svg .felt-txt { fill: #9fb8a8; font-size: 13px; text-anchor: middle; font-weight: 600; }
+.table-svg .felt-sub { fill: #6f8a79; font-size: 11px; text-anchor: middle; }
+.table-svg .seat { cursor: pointer; }
+.table-svg .seat circle { fill: var(--bg3); stroke: var(--line); stroke-width: 2; }
+.table-svg .seat .seat-name { fill: var(--text); font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+.table-svg .seat .seat-me { fill: #1b1608; font-size: 9px; font-weight: 800; text-anchor: middle; }
+.table-svg .seat.on > circle { fill: var(--gold); stroke: #fff; }
+.table-svg .seat.on .seat-name { fill: #1b1608; }
+.table-svg .dealer circle { fill: #f2f3f5; stroke: #999; stroke-width: 1; }
+.table-svg .dealer text { fill: #111; font-size: 11px; font-weight: 800; text-anchor: middle; }
 
 /* --- Matrice 13x13 */
 .grid13 { display: grid; grid-template-columns: repeat(13, 1fr); gap: 2px; user-select: none; touch-action: manipulation; }

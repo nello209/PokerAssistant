@@ -1,5 +1,6 @@
 import guida from '../data/guida.json';
 import spiegazioni from '../data/spiegazioni.json';
+import esempi from '../data/esempi.json';
 
 export function Guide() {
   const sec = (title: string, items: { t: string; d: string; v?: string }[]) => (
@@ -11,6 +12,23 @@ export function Guide() {
   return (
     <div>
       <details class="card" open>
+        <summary>Esempi passo passo</summary>
+        {esempi.sezioni.map((s) => (
+          <details key={s.scheda} style={{ borderTop: '1px solid var(--line)' }}>
+            <summary><b style={{ color: 'var(--text)' }}>{s.scheda}</b>&nbsp;<span class="tiny">({s.esempi.length})</span></summary>
+            {s.esempi.map((e) => (
+              <div key={e.titolo} class="info-box">
+                <p><b>{e.titolo}</b></p>
+                <p class="ex"><b>Situazione:</b> {e.situazione}</p>
+                <ol style={{ margin: '0 0 8px', paddingLeft: '20px' }}>{e.passi.map((p, i) => <li key={i} style={{ marginBottom: '4px' }}>{p}</li>)}</ol>
+                <p><b>Cosa vedi:</b> {e.risultato}</p>
+                <p class="tip"><b>Cosa impari:</b> {e.impari}</p>
+              </div>
+            ))}
+          </details>
+        ))}
+      </details>
+      <details class="card">
         <summary>Glossario: cos'è…?</summary>
         {Object.entries(spiegazioni.voci).map(([id, v]) => (
           <details key={id} style={{ borderTop: '1px solid var(--line)' }}>

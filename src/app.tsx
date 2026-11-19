@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { QuickStack } from './components/QuickStack.tsx';
 import { useAppState, setState, derive, timerElapsed, timerPosition, fmtNum, fmtChips, fmtAmount, levelAnte } from './state.ts';
 import { bandFor } from './engine/openRanges.ts';
 import { Setup } from './screens/Setup.tsx';
@@ -24,6 +25,8 @@ export function App() {
   const [tab, setTab] = useState<Tab>(() => (sessionStorageGet('tab') as Tab) || 'preflop');
   const [setupOpen, setSetupOpen] = useState(!s.settings.seenSetup);
   const [sharedPrompt, setSharedPrompt] = useState<string | null>(null);
+  const [stackOpen, setStackOpen] = useState(false);
+  const [reminder, setReminder] = useState(false);
   useWakeLock(s.settings.wakeLock);
 
   useEffect(() => { document.body.classList.toggle('discreet', s.settings.discreet); }, [s.settings.discreet]);
@@ -46,21 +49,40 @@ export function App() {
     return () => clearInterval(id);
   }, [s]);
 
+  // promemoria: a ogni salita di livello chiedi di controllare lo stack
+  const lastLevel = useRef(s.config.levelIndex);
+  useEffect(() => {
+    if (s.config.levelIndex > lastLevel.current && s.settings.seenSetup) setReminder(true);
+    lastLevel.current = s.config.levelIndex;
+  }, [s.config.levelIndex]);
+
   const d = derive(s);
   const band = bandFor(d.effBB);
   const unit = s.settings.unit;
   const ante = levelAnte(s, d.level);
   return (
     <div class="app">
+      <div class="top-sticky">
       <div class="topbar">
         <button type="button" class="lvl" onClick={() => setSetupOpen(true)} aria-label="Configurazione torneo">
           <div>Liv. <b>{s.config.levelIndex + 1}</b> · {s.config.players} al tavolo ⚙</div>
           <div><b>{fmtChips(d.level.sb)}/{fmtChips(d.level.bb)}</b>{ante ? ` ante ${fmtChips(ante)}${s.config.anteType === 'bb' ? ' BB' : ''}` : ''}</div>
         </button>
-        <button type="button" class="stack" onClick={() => setState((x) => { x.settings.unit = x.settings.unit === 'bb' ? 'chips' : 'bb'; })} aria-label="Cambia unità: BB o fiches">
-          <div class="big">{fmtAmount(s.config.myStack, d.level.bb, unit)} <span class="unit-sw">⇄</span></div>
+        <button type="button" class="stack" onClick={() => setStackOpen(true)} aria-label="Aggiorna il mio stack">
+          <div class="big">{fmtAmount(s.config.myStack, d.level.bb, unit)} <span class="unit-sw">✎</span></div>
           <div class="small">eff {fmtAmount(d.effStack, d.level.bb, unit)} · M {fmtNum(d.m)} · <span class={'zone ' + band.id}>{band.nome}</span></div>
         </button>
+        <button type="button" class="unit-btn" onClick={() => setState((x) => { x.settings.unit = x.settings.unit === 'bb' ? 'chips' : 'bb'; })} aria-label="Cambia unità: BB o fiches">
+          {unit === 'bb' ? 'BB' : 'fic'}<br />⇄
+        </button>
+      </div>
+      {reminder && (
+        <div class="reminder">
+          <span class="grow">Nuovo livello: <b>{fmtChips(d.level.sb)}/{fmtChips(d.level.bb)}</b>. Il tuo stack è ancora {fmtAmount(s.config.myStack, d.level.bb, unit)}?</span>
+          <button type="button" class="btn sm primary" onClick={() => { setReminder(false); setStackOpen(true); }}>Aggiorna</button>
+          <button type="button" class="btn sm ghost" onClick={() => setReminder(false)} aria-label="ok">Sì</button>
+        </div>
+      )}
       </div>
 
       <main>
@@ -81,6 +103,7 @@ export function App() {
         </div>
       </nav>
 
+      {stackOpen && <QuickStack onClose={() => setStackOpen(false)} />}
       {setupOpen && <Setup firstTime={!s.settings.seenSetup} onClose={() => { setSetupOpen(false); setState((x) => { x.settings.seenSetup = true; }); }} />}
       {sharedPrompt && (
         <div class="modal-bg">
