@@ -74,8 +74,7 @@ export function Preflop() {
             <div class="grow">
               <b>{usePush ? 'Shove (all-in) first-in' : 'Open raise'}</b> · {seat.name}
               <div class="tiny muted">
-                {bandSel === 'auto' ? `Auto: ${fmtNum(d.effBB)} BB effettivi → ${band.nome}` : band.nome}
-                {!isHU && ` · ${seat.behind} giocatori dietro (= ${seat.equivalent8} a 8)`}
+                Calcolato per: <b>{s.config.players} giocatori</b>{!isHU && <> · {seat.behind} parlano dopo di te</>} · <b>{bandSel === 'auto' ? `${fmtNum(d.effBB)} BB → ${band.nome}` : band.nome}</b>
               </div>
             </div>
             <div class="center"><div class="bigpct" style={{ fontSize: '26px' }}>{fmtNum(pct)}%</div><div class="tiny muted">{shown ? Math.round(rangeCombos(shown as Range)) : 0} combo</div></div>
@@ -134,7 +133,7 @@ function ShoveHint() {
 function BBInfo() {
   const s = useAppState();
   const hu = s.config.players === 2;
-  const r = hu ? baseOpenRange(s.profile, 'deep', { key: 'hu-bb', behind: 0, name: 'BB', equivalent8: '' }) : null;
+  const r = hu ? baseOpenRange(s.profile, 'deep', { key: 'hu-bb', behind: 0, name: 'BB' }) : null;
   return (
     <div class="card">
       <b>Big blind</b>

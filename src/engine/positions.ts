@@ -9,15 +9,9 @@ export interface Seat {
   behind: number;
   /** chiave del range di apertura: "b9" … "b1", "bb", oppure "hu-sb"/"hu-bb" in heads-up */
   key: string;
-  /** equivalente al tavolo da 8 giocatori, per spiegare da dove viene il range */
-  equivalent8: string;
 }
 
 const NAME_BY_BEHIND: Record<number, string> = { 1: 'SB', 2: 'BTN', 3: 'CO', 4: 'HJ', 5: 'LJ' };
-const EQ8: Record<number, string> = {
-  9: 'più stretto di UTG (posto aggiunto a 10)', 8: 'più stretto di UTG (posto aggiunto a 9)',
-  7: 'UTG', 6: 'UTG+1', 5: 'LJ / MP', 4: 'HJ', 3: 'CO', 2: 'BTN', 1: 'SB', 0: 'BB',
-};
 
 /** Posizione nella mano successiva: il bottone passa al giocatore alla sinistra, quindi tu "scali" di un posto. */
 export function nextHandSeat(seats: Seat[], current: string): string {
@@ -34,20 +28,18 @@ export function seatsFor(players: number): Seat[] {
   if (players < 2 || players > 10) throw new Error('Giocatori fra 2 e 10');
   if (players === 2) {
     return [
-      { name: 'BTN/SB', behind: 1, key: 'hu-sb', equivalent8: 'heads-up: il bottone è anche small blind' },
-      { name: 'BB', behind: 0, key: 'hu-bb', equivalent8: 'heads-up' },
+      { name: 'BTN/SB', behind: 1, key: 'hu-sb' },
+      { name: 'BB', behind: 0, key: 'hu-bb' },
     ];
   }
   const seats: Seat[] = [];
   for (let behind = players - 1; behind >= 1; behind--) {
-    let name = NAME_BY_BEHIND[behind];
-    if (!name) {
-      // posti con ≥6 giocatori dietro: il primo è UTG, poi UTG+1, UTG+2…
-      const k = players - 1 - behind;
-      name = k === 0 ? 'UTG' : 'UTG+' + k;
-    }
-    seats.push({ name, behind, key: 'b' + behind, equivalent8: EQ8[behind] });
+    const k = players - 1 - behind;   // quanti parlano prima di te
+    // chi parla per primo si chiama sempre UTG (da 4 giocatori in su); poi UTG+1, UTG+2… fino ai posti con nome
+    let name = k === 0 && players >= 4 ? 'UTG' : NAME_BY_BEHIND[behind];
+    if (!name) name = 'UTG+' + k;
+    seats.push({ name, behind, key: 'b' + behind });
   }
-  seats.push({ name: 'BB', behind: 0, key: 'bb', equivalent8: 'BB' });
+  seats.push({ name: 'BB', behind: 0, key: 'bb' });
   return seats;
 }

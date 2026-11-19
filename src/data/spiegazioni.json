@@ -42,9 +42,9 @@
         "La posizione è il posto in cui siedi rispetto al bottone (il dealer). Preflop parla per primo chi è subito dopo il big blind (UTG, \"under the gun\") e per ultimo il bottone, poi i bui.",
         "Più giocatori restano dietro di te, più è probabile che qualcuno abbia una mano forte: per questo dai primi posti (UTG) si gioca stretto e dal bottone largo.",
         "I nomi: UTG, UTG+1, UTG+2 = primi posti; LJ e HJ = posti centrali; CO = cutoff, a destra del bottone; BTN = bottone; SB e BB = piccolo e grande buio.",
-        "Con meno giocatori al tavolo spariscono i primi posti: a 6 giocatori il primo a parlare ha davanti la stessa situazione dell'LJ a 8."
+        "I range si adattano al numero di giocatori: quello che conta è quanti parlano dopo di te. Con meno giocatori ne hai meno dietro, quindi puoi aprire più mani dallo stesso posto."
       ],
-      "esempio": "A 8 giocatori l'UTG ha 7 giocatori dietro; il bottone ne ha solo 2 (i bui).",
+      "esempio": "UTG (il primo a parlare) con il profilo Standard: a 8 giocatori ne ha 7 dietro e apre il 16,3% delle mani; a 6 ne ha 5 dietro e apre il 22,3%; a 4 ne ha 3 dietro e apre il 36,3%.",
       "alTavolo": "Conta quanti giocatori parlano dopo di te e scegli il tuo posto qui: l'app mostra il range giusto."
     },
     "range": {
@@ -75,9 +75,10 @@
       "testo": [
         "Prudente: i range del tuo file Excel, verificati. Sono più stretti della teoria moderna e vanno bene contro amici che chiamano spesso.",
         "Standard: range più larghi, vicini a quelli calcolati dai programmi \"solver\" per i tornei. Rendono di più contro avversari che foldano tanto.",
+        "Tutti e due si adattano da soli a quanti siete al tavolo e al tuo stack: sopra la matrice c'è scritto per quanti giocatori e quanti BB è calcolato il range.",
         "Le voci segnate con ≈ sono approssimazioni: buone indicazioni, non verità assolute."
       ],
-      "esempio": "UTG a 8 giocatori: Prudente 9,4% delle mani, Standard 16,3%.",
+      "esempio": "UTG a 8 giocatori: Prudente 9,4% delle mani, Standard 16,3%. A 6 giocatori: Prudente 14,8%, Standard 22,3%.",
       "alTavolo": "Se il tavolo chiama tutto usa Prudente; se rubi spesso i bui senza resistenza prova Standard."
     },
     "cosaHo": {

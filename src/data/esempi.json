@@ -71,6 +71,17 @@
           "impari": "Con meno BB le coppie basse rendono meno: se fai set non hai abbastanza fiches da vincere per ripagare le volte che non lo fai."
         },
         {
+          "titolo": "Quando qualcuno esce: i range si allargano",
+          "situazione": "Eravate in 8, due sono stati eliminati: ora siete in 6. Sei il primo a parlare (UTG) con K♣J♦, profilo Prudente, 50 BB.",
+          "passi": [
+            "⚙ → In gioco → Giocatori al tavolo: 6. Il tavolo nella scheda Preflop ora ha 6 posti.",
+            "Tocca UTG (il primo dopo il BB). Sopra la matrice c'è scritto: Calcolato per 6 giocatori · 5 parlano dopo di te.",
+            "Tocca la cella KJo."
+          ],
+          "risultato": "KJo è oro (RAISE). A 8 giocatori, dallo stesso posto, era FOLD. L'UTG passa dal 9,4% al 14,8% delle mani (con Standard dal 16,3% al 22,3%).",
+          "impari": "Conta quanti giocatori parlano dopo di te: meno avversari dietro = meno probabilità che qualcuno abbia una mano migliore, quindi apri di più."
+        },
+        {
           "titolo": "Passare alla mano dopo",
           "situazione": "Eri sul bottone, la mano è finita.",
           "passi": ["Premi Mano dopo ⟳ sotto il tavolo."],

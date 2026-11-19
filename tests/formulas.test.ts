@@ -128,8 +128,9 @@ describe('posizioni (correzioni della Fase 1)', () => {
   });
   it('10 giocatori', () => expect(keys(10).slice(0, 3)).toEqual(['b9', 'b8', 'b7']));
   it('5, 4, 3, 2 giocatori', () => {
-    expect(names(5)).toEqual(['HJ', 'CO', 'BTN', 'SB', 'BB']);
-    expect(names(4)).toEqual(['CO', 'BTN', 'SB', 'BB']);
+    expect(names(6)).toEqual(['UTG', 'HJ', 'CO', 'BTN', 'SB', 'BB']);
+    expect(names(5)).toEqual(['UTG', 'CO', 'BTN', 'SB', 'BB']);
+    expect(names(4)).toEqual(['UTG', 'BTN', 'SB', 'BB']);
     expect(names(3)).toEqual(['BTN', 'SB', 'BB']);
     expect(keys(2)).toEqual(['hu-sb', 'hu-bb']);
   });

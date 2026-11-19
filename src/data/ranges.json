@@ -1,9 +1,9 @@
 {
-  "descrizione": "Range di apertura (piatto non aperto, tutti hanno foldato). Chiavi bN = posto con N giocatori dietro (b7 = UTG a 8 giocatori). Vedi VALIDAZIONE.md.",
+  "descrizione": "Range di apertura (piatto non aperto, tutti hanno foldato). Chiavi bN = posto con N giocatori che parlano dopo (b5 = primo a parlare a 6 giocatori, b7 = primo a parlare a 8). Così ogni numero di giocatori da 3 a 10 usa il range giusto. Vedi VALIDAZIONE.md.",
   "profili": {
     "prudente": {
       "nome": "Prudente",
-      "fonte": "Foglio 'Range e Sizes' di Poker_Tornei.xlsx (8 giocatori, 40+ BB), verificato mano per mano. b8 e b9 aggiunti in VALIDAZIONE.md (posti extra a 9 e 10 giocatori).",
+      "fonte": "Range del tuo foglio Excel, verificati mano per mano e adattati al numero di giocatori: conta quanti parlano dopo di te, quindi con meno giocatori al tavolo i range si allargano da soli.",
       "approssimato": false,
       "range": {
         "b9": "88+; ATs+; KQs; AQo+",
@@ -19,7 +19,7 @@
     },
     "standard": {
       "nome": "Standard",
-      "fonte": "Ordine di grandezza delle soluzioni da solver per MTT a 8 giocatori, ~40 BB con ante, semplificate in raise/fold (frequenze miste arrotondate). Approssimazione.",
+      "fonte": "Range vicini a quelli dei programmi solver per i tornei, semplificati in raise/fold. Si adattano al numero di giocatori (conta quanti parlano dopo di te) e allo stack (fascia scelta sopra).",
       "approssimato": true,
       "range": {
         "b9": "77+; ATs+; A5s; AJo+; KTs+; KQo; QJs",

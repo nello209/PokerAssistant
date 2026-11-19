@@ -4,7 +4,7 @@ import { computeEquity } from '../src/engine/equity.ts';
 import { parseCards } from '../src/engine/cards.ts';
 import { buildTables, topPercentRange } from '../src/engine/preflopEquity.ts';
 import { solvePushFold } from '../src/engine/pushfold.ts';
-import { handIndex } from '../src/engine/ranges.ts';
+import { handIndex, rangePercent } from '../src/engine/ranges.ts';
 import { countOuts } from '../src/engine/outs.ts';
 import { icm, prizePool, prizesFromPool } from '../src/engine/icm.ts';
 import { requiredEquityFromPot, callEV, spr } from '../src/engine/odds.ts';
@@ -34,6 +34,16 @@ describe('esempi passo passo', () => {
     expect(baseOpenRange('prudente', 'deep', seat(8, 'CO'))![handIndex('A7o')]).toBe(1);
     expect(baseOpenRange('prudente', 'deep', seat(8, 'HJ'))![handIndex('44')]).toBe(1);
     expect(baseOpenRange('prudente', 'medio', seat(8, 'HJ'))![handIndex('44')]).toBe(0);
+  });
+  it('range adattati ai giocatori: UTG a 6 apre KJo (Prudente), a 8 no; percentuali 9,4→14,8 e 16,3→22,3', () => {
+    const utg = (n: number) => seatsFor(n)[0];
+    expect(utg(6).name).toBe('UTG');
+    expect(baseOpenRange('prudente', 'deep', utg(8))![handIndex('KJo')]).toBe(0);
+    expect(baseOpenRange('prudente', 'deep', utg(6))![handIndex('KJo')]).toBe(1);
+    const pct = (p: 'prudente' | 'standard', n: number) => +rangePercent(baseOpenRange(p, 'deep', utg(n))!).toFixed(1);
+    expect([pct('prudente', 8), pct('prudente', 6), pct('standard', 8), pct('standard', 6), pct('standard', 4)]).toEqual([9.4, 14.8, 16.3, 22.3, 36.3]);
+    // più giocatori = range più stretto, a ogni numero di giocatori
+    for (const p of ['prudente', 'standard'] as const) for (let n = 4; n <= 10; n++) expect(pct(p, n)).toBeLessThan(pct(p, n - 1));
   });
   it('mano dopo: dal bottone si passa a CO', () => {
     expect(nextHandSeat(seatsFor(8), 'b2')).toBe('b3');
