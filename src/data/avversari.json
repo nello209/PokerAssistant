@@ -1,0 +1,19 @@
+{
+  "fonte": "Foglio 'Lettura Avversari' di Poker_Tornei.xlsx. Le etichette sono ipotesi da verificare al tavolo.",
+  "profili": [
+    { "id": "nit", "nome": "Nit / roccia", "segnali": "Poche aperture e pochi call. Aggressione forte raramente con mani deboli.", "adattamento": "Ruba più spesso se folda i bui. Rispetta i suoi range forti senza foldare automaticamente." },
+    { "id": "tag", "nome": "TAG", "segnali": "Seleziona le mani e prende spesso l'iniziativa.", "adattamento": "Gioca in posizione. Valuta range e board: non ogni sua puntata è forte." },
+    { "id": "lag", "nome": "LAG", "segnali": "Apre largo e punta spesso. Può avere bluff e value sottili.", "adattamento": "Continua un po' più largo negli spot giusti, lascia spazio ai suoi bluff. Niente slowplay automatico." },
+    { "id": "station", "nome": "Calling station", "segnali": "Chiama molto, soprattutto con una coppia. Rilancia raramente.", "adattamento": "Riduci molto i bluff, punta per valore anche sottile. Un suo raise indica più forza di un suo call." },
+    { "id": "maniac", "nome": "Maniac", "segnali": "Rilancia moltissimo e mostra all-in con mani deboli.", "adattamento": "Allarga value e bluff-catch in base alle prove. Aggressività non vuol dire bluff certo." },
+    { "id": "passive", "nome": "Loose passive", "segnali": "Entra in molti piatti con limp o call, prende poco l'iniziativa.", "adattamento": "Isola con mani solide. Bluffa meno multiway, punta per valore." }
+  ],
+  "osservazioni": [
+    { "t": "Mani mostrate e posizione", "d": "Una mano debole aperta da UTG informa più di una aperta dal bottone." },
+    { "t": "Reazione alle size", "d": "Chi chiama sia 1/3 sia 3/4 di piatto con la stessa coppia può pagare value più grandi." },
+    { "t": "Raise postflop", "d": "Distingui chi chiama largo da chi rilancia largo." },
+    { "t": "Bui e stack corti", "d": "Nota chi folda troppo ai furti e chi chiama gli shove troppo largo." },
+    { "t": "Timing e gesti", "d": "Indizi deboli: confermali con azione e showdown." }
+  ],
+  "esempioNota": "BTN, circa 18 BB: ha chiamato shove con K8o. Un episodio è un indizio, non un range stabile."
+}

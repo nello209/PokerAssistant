@@ -1,0 +1,8 @@
+node_modules/
+.claude/
+dist/
+*.log
+.DS_Store
+~$*.xlsx
+# il file Excel originale resta solo sul PC (il repository GitHub sarà pubblico)
+Poker_Tornei.xlsx

@@ -1,0 +1,28 @@
+{
+  "name": "tavolo-poker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PWA offline di supporto per tornei casalinghi di Texas Hold'em",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host",
+    "test": "vitest run",
+    "gen:equity": "node scripts/gen-equity.ts",
+    "gen:ranges": "node scripts/gen-ranges.ts",
+    "gen:icons": "node scripts/gen-icons.ts"
+  },
+  "dependencies": {
+    "preact": "^11.2.0",
+    "qrcode-generator": "^2.0.4"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.1"
+  }
+}

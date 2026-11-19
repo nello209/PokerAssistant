@@ -1,0 +1,58 @@
+{
+  "primaDiOgniDecisione": [
+    { "t": "Posizione e azione", "d": "Hanno foldato tutti? Un range di apertura non è un range di call o di 3-bet." },
+    { "t": "Stack effettivo", "d": "Quanti BB si possono davvero mettere in gioco contro ciascun avversario?" },
+    { "t": "Motivo della puntata", "d": "Quali mani peggiori chiamano? Quali mani migliori possono foldare?" },
+    { "t": "Fase del torneo", "d": "Quanti giocatori restano? Ci sono premi diversi o una possibile divisione finale?" }
+  ],
+  "controRaise": [
+    { "t": "AA, KK e mani molto forti", "d": "Rilancia spesso per valore. Size e all-in dipendono da stack e azione precedente." },
+    { "t": "QQ, JJ, AK, AQ", "d": "Spesso 3-bet o call. Valuta posizione e range di chi apre. JJ e AK non impongono sempre 3-bet o stack-off." },
+    { "t": "AJo, KQo e altri broadway", "d": "Contro aperture strette o grandi size puoi foldare. Contro CO/BTN larghi continua selettivamente." },
+    { "t": "Coppie piccole e suited connector", "d": "Call selettivo: prezzo, posizione, stack, rischio squeeze. A 40 BB il set mining da solo non basta (servono ~15–20 volte il call)." },
+    { "t": "Dallo SB", "d": "Contro un'apertura, 3-bet o fold è spesso la base più semplice." },
+    { "t": "BB contro min-raise", "d": "Hai già un buio in mezzo e un prezzo migliore: difendi in base al range di chi apre e allo stack." }
+  ],
+  "size": [
+    { "t": "Open raise", "v": "2–2,5 BB", "d": "Piatto non aperto. Contro tavoli che chiamano tutto puoi aprire più grande (3 BB o più) con un range più stretto." },
+    { "t": "Isolare limper", "v": "open + 1 BB per limper", "d": "Mani che giocano bene contro i loro call. Fuori posizione un po' di più." },
+    { "t": "3-bet in posizione", "v": "~3× il raise", "d": "Es. open 2 BB → 6–7 BB totali." },
+    { "t": "3-bet fuori posizione", "v": "~4× il raise", "d": "Corretto rispetto al foglio (4–5×): a 40 BB un 5× impegna un terzo dello stack. Sotto ~25 BB preferisci 3-bet all-in o fold." },
+    { "t": "Open SB vs BB", "v": "~3 BB", "d": "Fuori posizione postflop. Anche il limp è una linea valida." },
+    { "t": "C-bet board secco", "v": "25–33% piatto", "d": "Con vantaggio di range, heads-up. Il check resta un'opzione." },
+    { "t": "Board dinamico / range polarizzato", "v": "50–75% piatto", "d": "Board, range, stack e avversario decidono la size." },
+    { "t": "River", "v": "legata alle mani da colpire", "d": "Valore: call da peggio. Bluff: servono abbastanza fold (vedi B/(P+B))." }
+  ],
+  "postflop": [
+    { "t": "Piatti multiway", "d": "Riduci bluff e c-bet automatiche: serve più forza." },
+    { "t": "Top pair con stack profondi", "d": "Una coppia non è automaticamente una mano da tutto lo stack. Rivaluta su raise e carte sfavorevoli." },
+    { "t": "SPR", "d": "Stack effettivo residuo / piatto al flop. SPR < 3: top pair spesso va all-in; SPR > 6: servono mani più forti. Indicazione, non regola." }
+  ],
+  "pushFold": [
+    { "t": "Oltre 20 BB", "d": "Open raise e gioco postflop. Evita open shove automatici." },
+    { "t": "10–20 BB", "d": "Min-raise, raise/call, raise/fold o shove: prepara il piano prima di aprire. Reshove contro open dal CO/BTN è un'arma importante." },
+    { "t": "6–10 BB", "d": "Lo shove first-in è spesso la scelta migliore. Range per stack esatto e posizione." },
+    { "t": "Sotto 6 BB", "d": "Chi chiama allarga molto: scegli in base a quanti giocatori restano dietro e ai bui in arrivo." },
+    { "t": "SB contro BB", "d": "Il limp può far parte della strategia anche da corto." },
+    { "t": "Qualcuno ha aperto o limpato", "d": "È un reshove o un isolamento, non uno shove first-in: i range sono diversi." },
+    { "t": "BB contro shove", "d": "Valuta costo del call, range dello shover e ICM. Nessun «chiama sempre con 22+»." },
+    { "t": "Call all-in", "d": "Non vinci con i fold: serve equity sufficiente contro il suo range, più margine vicino ai premi." }
+  ],
+  "icm": [
+    "Con almeno 3 giocatori e più posti pagati le chip non valgono in modo lineare: perdere lo stack costa più di quanto renda raddoppiarlo.",
+    "Vicino ai premi un call marginale in chip-EV può essere un errore in premi: stringi i call, allarga gli shove contro chi deve stare attento.",
+    "Se paga solo il primo, l'ICM coincide con la quota di chip: niente premio di rischio.",
+    "A due giocatori l'ICM è lineare: secondo premio + quota chip × (primo − secondo).",
+    "Un accordo è una scelta: split uguale e accordo ICM sono cose diverse. Decidete il metodo prima."
+  ],
+  "headsUp": [
+    { "t": "Ordine di gioco", "d": "Il bottone è anche small blind: parla per primo preflop e per ultimo dopo il flop." },
+    { "t": "Range", "d": "Molto più largo che al tavolo pieno: dal bottone ~80% delle mani a 20–40 BB (raise o limp)." },
+    { "t": "Stack corto", "d": "Sotto ~15 BB usa i range di Nash della scheda Push/Fold." }
+  ],
+  "avvertenze": {
+    "impliedOdds": "Il verdetto confronta solo l'equity con il prezzo di adesso. Con altre carte da vedere contano le puntate future (implied odds e reverse implied odds).",
+    "icm": "Vicino ai premi serve un margine in più: un call +EV in chip può essere -EV in premi.",
+    "approssimazione": "Approssimazione: non è un output di solver per questa situazione esatta."
+  }
+}

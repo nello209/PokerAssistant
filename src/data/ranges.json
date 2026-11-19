@@ -1,0 +1,81 @@
+{
+  "descrizione": "Range di apertura (piatto non aperto, tutti hanno foldato). Chiavi bN = posto con N giocatori dietro (b7 = UTG a 8 giocatori). Vedi VALIDAZIONE.md.",
+  "profili": {
+    "prudente": {
+      "nome": "Prudente",
+      "fonte": "Foglio 'Range e Sizes' di Poker_Tornei.xlsx (8 giocatori, 40+ BB), verificato mano per mano. b8 e b9 aggiunti in VALIDAZIONE.md (posti extra a 9 e 10 giocatori).",
+      "approssimato": false,
+      "range": {
+        "b9": "88+; ATs+; KQs; AQo+",
+        "b8": "77+; ATs+; KQs; AJo+; KQo",
+        "b7": "77+; ATs+; AJo+; KJs+; KQo; QJs",
+        "b6": "66+; A9s+; ATo+; KTs+; KQo; QJs; JTs",
+        "b5": "55+; A7s+; ATo+; K9s+; KJo+; Q9s+; JTs; T9s",
+        "b4": "44+; A2s+; A9o+; K9s+; KTo+; Q9s+; QJo; J9s+; T9s; 98s",
+        "b3": "22+; A2s+; A7o+; K5s+; K9o+; Q8s+; QTo+; J8s+; T8s+; 98s; 87s",
+        "b2": "22+; A2s+; A2o+; K2s+; K7o+; Q4s+; Q9o+; J7s+; J9o+; T6s+; 96s; 97s; 98s; 54s; 65s; 76s; 87s",
+        "b1": "22+; A2s+; A5o+; K2s+; K9o+; Q6s+; QTo+; J8s+; T8s+; 98s; 87s"
+      }
+    },
+    "standard": {
+      "nome": "Standard",
+      "fonte": "Ordine di grandezza delle soluzioni da solver per MTT a 8 giocatori, ~40 BB con ante, semplificate in raise/fold (frequenze miste arrotondate). Approssimazione.",
+      "approssimato": true,
+      "range": {
+        "b9": "77+; ATs+; A5s; AJo+; KTs+; KQo; QJs",
+        "b8": "66+; A9s+; A5s; ATo+; KTs+; KQo; QTs+; JTs",
+        "b7": "55+; A8s+; A5s; A4s; ATo+; K9s+; KJo+; Q9s+; QJo; J9s+; T9s",
+        "b6": "44+; A7s+; A5s-A3s; ATo+; K9s+; KTo+; Q9s+; QJo; J9s+; T9s; 98s",
+        "b5": "33+; A2s+; A9o+; K8s+; KTo+; Q9s+; QTo+; J9s+; T8s+; 98s; 87s",
+        "b4": "22+; A2s+; A8o+; K6s+; KTo+; Q8s+; QTo+; J8s+; JTo; T8s+; 97s+; 87s; 76s",
+        "b3": "22+; A2s+; A5o+; K3s+; K9o+; Q6s+; Q9o+; J7s+; J9o+; T7s+; T9o; 96s+; 86s+; 75s+; 65s; 54s",
+        "b2": "22+; A2s+; A2o+; K2s+; K5o+; Q2s+; Q8o+; J4s+; J8o+; T6s+; T8o+; 95s+; 98o; 85s+; 87o; 74s+; 64s+; 53s+; 43s",
+        "b1": "22+; A2s+; A2o+; K2s+; K7o+; Q4s+; Q9o+; J6s+; J9o+; T6s+; T9o; 96s+; 85s+; 75s+; 64s+; 54s"
+      }
+    }
+  },
+  "headsUp": {
+    "fonte": "Approssimazione: in heads-up a 20–40 BB i solver aprono dal bottone circa l'80–90% delle mani e il BB difende (call + 3-bet) circa il 65–75% contro un min-raise. Range ordinati per equity contro mano casuale.",
+    "approssimato": true,
+    "hu-sb": "22+; A2s+; K2s+; Q2s+; J2s+; T2s+; 92s+; 83s+; 74s+; 64s+; 54s; A2o+; K2o+; Q2o+; J2o+; T2o+; 94o+; 85o+; 75o+",
+    "hu-bb": "22+; A2s+; K2s+; Q2s+; J2s+; T2s+; 94s+; 85s+; 75s+; A2o+; K2o+; Q2o+; J2o+; T5o+; 96o+; 87o"
+  },
+  "fasce": [
+    {
+      "id": "deep",
+      "nome": "40+ BB",
+      "min": 40,
+      "descrizione": "Range di base del profilo. Open 2–2,5 BB.",
+      "approssimato": false
+    },
+    {
+      "id": "medio",
+      "nome": "20–40 BB",
+      "min": 20,
+      "descrizione": "Come 40+ BB ma senza le mani speculative nei posti con 4+ giocatori dietro: coppie piccole e suited connector rendono poco quando lo stack non permette di farsi pagare (implied odds ridotte). Open 2–2,2 BB.",
+      "approssimato": true,
+      "rimuovi": [
+        { "dietroMin": 4, "mani": "44-22; 87s; 76s; 65s; 54s; 97s; 86s; 75s; 64s; 53s; 43s" },
+        { "dietroMin": 0, "mani": "53s; 43s" }
+      ]
+    },
+    {
+      "id": "corto",
+      "nome": "10–20 BB",
+      "min": 10,
+      "descrizione": "Open (min-raise) con mani che reggono un 3-bet all-in o con un piano raise/fold chiaro. In alternativa shove: vedi la scheda Push/Fold. Contro un open valuta il reshove (3-bet all-in).",
+      "approssimato": true,
+      "rimuovi": [
+        { "dietroMin": 4, "mani": "66-22; T9s; 98s; 87s; 76s; 65s; 54s; J9s; T8s; 97s; 86s; 75s; 64s; 53s; 43s; Q9s" },
+        { "dietroMin": 2, "mani": "54s; 64s; 53s; 43s; 75s; 74s; 85s; 95s; 96s" }
+      ]
+    },
+    {
+      "id": "push",
+      "nome": "< 10 BB",
+      "min": 0,
+      "descrizione": "Push/fold: shove o fold quando nessuno è entrato. Range calcolati con equilibrio di Nash (chip-EV).",
+      "approssimato": true
+    }
+  ]
+}

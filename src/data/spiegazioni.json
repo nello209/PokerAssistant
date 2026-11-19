@@ -1,0 +1,183 @@
+{
+  "descrizione": "Spiegazioni semplici mostrate dal pulsante \"Cos'è?\" in ogni sezione. Ogni voce: titolo, testo (paragrafi), esempio, alTavolo (come usarlo in pratica).",
+  "voci": {
+    "barra": {
+      "titolo": "La barra in alto",
+      "testo": [
+        "BB (big blind) è il buio grande del livello attuale. Contare lo stack in BB invece che in fiches rende tutto confrontabile: 3000 fiches sono tante con bui 25/50 (60 BB) e poche con bui 300/600 (5 BB).",
+        "Eff (stack effettivo) è quanto puoi davvero vincere o perdere in una mano: il più piccolo fra il tuo stack e quello dell'avversario. Se hai 40 BB e lui 15 BB, in quella mano giocate per 15 BB.",
+        "M indica quanti giri del tavolo puoi sopravvivere pagando solo bui e ante senza giocare mani. Più è basso, più devi prendere iniziativa.",
+        "La zona colorata (40+, 20–40, 10–20, <10) dice in che fascia di stack sei: l'app adatta i consigli a questa fascia."
+      ],
+      "esempio": "Bui 100/200, hai 6000 fiches → 30 BB. Il tuo avversario ne ha 2400 → stack effettivo 12 BB.",
+      "alTavolo": "Aggiorna il tuo stack ogni tanto toccando la barra: tutti i consigli dipendono da lì."
+    },
+    "posizioni": {
+      "titolo": "Le posizioni",
+      "testo": [
+        "La posizione è il posto in cui siedi rispetto al bottone (il dealer). Preflop parla per primo chi è subito dopo il big blind (UTG, \"under the gun\") e per ultimo il bottone, poi i bui.",
+        "Più giocatori restano dietro di te, più è probabile che qualcuno abbia una mano forte: per questo dai primi posti (UTG) si gioca stretto e dal bottone largo.",
+        "I nomi: UTG, UTG+1, UTG+2 = primi posti; LJ e HJ = posti centrali; CO = cutoff, a destra del bottone; BTN = bottone; SB e BB = piccolo e grande buio.",
+        "Con meno giocatori al tavolo spariscono i primi posti: a 6 giocatori il primo a parlare ha davanti la stessa situazione dell'LJ a 8."
+      ],
+      "esempio": "A 8 giocatori l'UTG ha 7 giocatori dietro; il bottone ne ha solo 2 (i bui).",
+      "alTavolo": "Conta quanti giocatori parlano dopo di te e scegli il tuo posto qui: l'app mostra il range giusto."
+    },
+    "range": {
+      "titolo": "Il range e la matrice 13×13",
+      "testo": [
+        "Un range è l'insieme delle mani con cui fai una certa azione. Qui: le mani con cui aprire (rilanciare per primo) quando tutti prima di te hanno foldato.",
+        "La matrice contiene tutte le 169 mani iniziali. Sulla diagonale le coppie (AA, KK…). Sopra la diagonale le mani dello stesso seme (\"s\", suited, es. AKs). Sotto, quelle di semi diversi (\"o\", offsuit, es. AKo).",
+        "Le celle oro sono le mani da giocare (raise), le altre da foldare. La percentuale è la parte di tutte le mani possibili che giochi: una coppia ha 6 combinazioni, una suited 4, una offsuit 12, in totale 1326.",
+        "Tocca una cella per sapere cosa fare con quella mano. Con \"Modifica\" puoi cambiare il range a tuo gusto."
+      ],
+      "esempio": "Hai A♠J♦ (AJo) in UTG: la cella AJo è oro → apri con un raise di 2–2,5 BB.",
+      "alTavolo": "Il range vale solo se tutti prima di te hanno foldato. Se qualcuno ha già rilanciato apri la sezione \"Se qualcuno ha già rilanciato\"."
+    },
+    "fasce": {
+      "titolo": "Le fasce di stack",
+      "testo": [
+        "Le mani da giocare cambiano con la profondità dello stack. Con tanti BB (40+) le mani \"speculative\" (coppie basse, suited connector come 76s) rendono, perché se chiudi un punto forte puoi vincere molto.",
+        "Fra 20 e 40 BB e fra 10 e 20 BB queste mani rendono meno: l'app le toglie dai primi posti.",
+        "Sotto i 10 BB non conviene più rilanciare e giocare dopo il flop: si va all-in (shove) o si folda. È il push/fold.",
+        "\"Auto\" sceglie la fascia dal tuo stack effettivo; puoi forzarne una a mano per studiare."
+      ],
+      "esempio": "Con 25 BB in UTG l'app non ti fa aprire 33 o 65s, che invece a 50 BB sono giocabili da posizioni più avanzate.",
+      "alTavolo": "Lascia \"Auto\" e tieni aggiornato lo stack nella barra in alto."
+    },
+    "profili": {
+      "titolo": "Prudente o Standard",
+      "testo": [
+        "Prudente: i range del tuo file Excel, verificati. Sono più stretti della teoria moderna e vanno bene contro amici che chiamano spesso.",
+        "Standard: range più larghi, vicini a quelli calcolati dai programmi \"solver\" per i tornei. Rendono di più contro avversari che foldano tanto.",
+        "Le voci segnate con ≈ sono approssimazioni: buone indicazioni, non verità assolute."
+      ],
+      "esempio": "UTG a 8 giocatori: Prudente 9,4% delle mani, Standard 16,3%.",
+      "alTavolo": "Se il tavolo chiama tutto usa Prudente; se rubi spesso i bui senza resistenza prova Standard."
+    },
+    "cosaHo": {
+      "titolo": "Cosa ho?",
+      "testo": [
+        "Mostra il miglior punto che puoi formare usando 5 carte fra le tue 2 e quelle sul tavolo (board). Le carte che formano il punto sono evidenziate in verde.",
+        "\"Classifica\" mostra l'ordine dei punti, dal più forte (scala reale) al più debole (carta alta), con la probabilità di ciascuno."
+      ],
+      "esempio": "Hai K♥Q♥ e sul board ci sono K♣ 7♦ 2♠: hai una coppia di Re.",
+      "alTavolo": "Utile per non sbagliare a leggere board complicati, per esempio con colore e scala possibili insieme."
+    },
+    "outs": {
+      "titolo": "Gli outs",
+      "testo": [
+        "Gli outs sono le carte ancora nel mazzo che migliorano la tua mano fino a un punto che probabilmente vince.",
+        "Puliti: ti danno scala o meglio senza aiutare troppo l'avversario. Sporchi: completano anche mani migliori possibili per lui (per esempio appaiano il board e rendono possibile un full).",
+        "La percentuale \"Turn\" (o \"River\") è la probabilità di prendere un out con la prossima carta; \"Entro il river\" con le due carte che mancano, ma vale solo se le vedi entrambe senza pagare altro (cioè se sei all-in).",
+        "Regola rapida: outs × 2 per una carta, outs × 4 per due carte."
+      ],
+      "esempio": "Hai 4 carte di cuori dopo il flop: restano 9 cuori nel mazzo → 9 outs, 19% al turn, 35% entro il river.",
+      "alTavolo": "Confronta la percentuale \"una carta\" con il prezzo del call (sezione pot odds), non quella a due carte, se l'avversario potrà puntare ancora."
+    },
+    "equity": {
+      "titolo": "L'equity",
+      "testo": [
+        "L'equity è la percentuale del piatto che ti spetta \"in media\": la probabilità di vincere la mano se si arrivasse allo showdown senza più puntate (più metà dei pareggi).",
+        "Contro una mano precisa è un calcolo diretto. Di solito però non sai cosa ha l'avversario: allora gli assegni un range di mani possibili (\"Range\") o una mano qualsiasi (\"Casuale\").",
+        "Quando i casi sono pochi l'app li conta tutti (enumerazione esatta). Quando sono troppi simula migliaia di mani a caso (Monte Carlo) e indica il margine d'errore, ad esempio ±0,3%.",
+        "Con più avversari l'equity è la probabilità di battere tutti insieme, quindi scende."
+      ],
+      "esempio": "AA contro KK prima del flop: 82% contro 18%. Su 100 volte, AA vince circa 82 volte.",
+      "alTavolo": "Usa l'equity insieme alle pot odds qui sotto: se la tua equity supera l'equity minima richiesta, il call conviene."
+    },
+    "avversari": {
+      "titolo": "Che mano dare all'avversario",
+      "testo": [
+        "Casuale: qualsiasi coppia di carte. Va bene solo per avversari che giocano davvero di tutto.",
+        "Range → Top %: le migliori mani fino a quella percentuale. Chi ha aperto dal primo posto ha forse il 10–15% migliore; chi va all-in disperato dal bottone anche il 50%.",
+        "Range → Apertura: il range di apertura di una posizione (quello della scheda Preflop).",
+        "Range → Matrice: scegli tu le mani cella per cella.",
+        "Mano: se conosci le sue carte (ad esempio per studiare una mano finita)."
+      ],
+      "esempio": "Un giocatore prudente rilancia da UTG: prova Top 10%.",
+      "alTavolo": "Pensa a quali mani ha giocato così questo avversario, non alla mano che temi di più."
+    },
+    "potOdds": {
+      "titolo": "Pot odds ed EV: devo chiamare?",
+      "testo": [
+        "Le pot odds confrontano quanto devi mettere con quanto puoi vincere. L'equity minima è la percentuale di vittorie che ti serve per non perderci: da chiamare ÷ (piatto + da chiamare).",
+        "L'EV (valore atteso) è quanto guadagni o perdi in media con il call, ripetendo la stessa situazione molte volte. +EV = conviene, −EV = non conviene.",
+        "Il verdetto confronta la tua equity con l'equity minima. Attenzione: vale pienamente solo se sei all-in o al river. Con carte ancora da vedere l'avversario può puntare ancora (implied odds) e vicino ai premi perdere lo stack costa di più (ICM)."
+      ],
+      "esempio": "Nel piatto ci sono 300 fiches (compresa la sua puntata da 100). Devi mettere 100 per vincerne 400 → ti serve almeno il 25% di equity.",
+      "alTavolo": "Scrivi il piatto che vedi al centro (con la sua puntata) e quanto ti chiede di mettere."
+    },
+    "pushFold": {
+      "titolo": "Push/Fold (shove)",
+      "testo": [
+        "Con meno di 10–15 BB rilanciare normalmente lascia troppo poco dietro: conviene andare all-in (shove o push) o foldare.",
+        "Shove first-in: sei il primo a entrare nel piatto e vai all-in. La griglia mostra le mani con cui conviene farlo, in base allo stack e alla posizione.",
+        "I range vengono da un calcolo di equilibrio (Nash): la strategia migliore se anche gli avversari giocano al meglio. In heads-up il calcolo è esatto nel modello; con più giocatori è un'approssimazione.",
+        "Le ante (fiches messe da tutti prima della mano) rendono il piatto più ricco: con le ante si spinge più largo."
+      ],
+      "esempio": "Hai 8 BB a 8 giocatori: con K9o dal bottone vai all-in, dall'UTG (7 giocatori dietro) foldi.",
+      "alTavolo": "Imposta lo stack effettivo e il posto: oro = all-in, scuro = fold. Non aspettare solo le mani premium mentre i bui ti consumano."
+    },
+    "callShove": {
+      "titolo": "Call contro uno shove",
+      "testo": [
+        "Qualcuno è andato all-in prima di te: con quali mani conviene chiamare?",
+        "Chiamare richiede mani più forti di quelle per fare shove, perché tu non puoi vincere facendo foldare l'avversario: vinci solo se hai la mano migliore alla fine.",
+        "La griglia blu mostra le mani da chiamare contro chi va all-in da quel posto con quello stack."
+      ],
+      "esempio": "In heads-up a 10 BB il BB chiama circa il 37% delle mani contro uno shove dello SB.",
+      "alTavolo": "Vicino ai premi chiama un po' più stretto di quanto indicato (vedi ICM)."
+    },
+    "icm": {
+      "titolo": "ICM: quanto valgono le tue fiches in premi",
+      "testo": [
+        "In un torneo le fiches non valgono soldi in modo diretto: se hai metà delle fiches non vinci metà del montepremi, perché il primo premio va a uno solo e gli altri prendono comunque qualcosa.",
+        "L'ICM (Independent Chip Model) stima quanto vale in premi il tuo stack, in base agli stack di tutti e ai premi in palio.",
+        "Serve soprattutto per gli accordi finali: invece di giocare fino all'ultimo, vi dividete il montepremi in modo equo. \"Chip chop\" invece divide in proporzione alle fiches, e favorisce chi ne ha di più.",
+        "Conseguenza al tavolo: vicino ai premi perdere lo stack costa più di quanto renda raddoppiarlo, quindi i call all-in vanno fatti più stretti."
+      ],
+      "esempio": "Restate in 3 con 5000, 3000 e 2000 fiches e premi 50/30/20. Il chip leader ha il 50% delle fiches, ma l'ICM gli dà 38,4, non 50.",
+      "alTavolo": "Scrivi i premi e gli stack di chi è rimasto: la colonna ICM è una divisione equa da proporre."
+    },
+    "timer": {
+      "titolo": "Il timer dei bui",
+      "testo": [
+        "Nei tornei i bui salgono a intervalli di tempo fissi (livelli). Il timer conta il tempo e mostra i bui attuali e i prossimi.",
+        "Se lasci attiva l'opzione, il timer aggiorna anche il livello nella barra in alto: tutta l'app usa i bui giusti senza che tu debba farlo a mano.",
+        "Condividi crea un link e un QR code: gli altri giocatori lo aprono e vedono lo stesso conto alla rovescia sul loro telefono."
+      ],
+      "esempio": "Livelli da 20 minuti: dopo 20 minuti i bui passano da 25/50 a 50/100 e il telefono vibra.",
+      "alTavolo": "Usa \"Schermo intero\" e appoggia il telefono al centro del tavolo."
+    },
+    "note": {
+      "titolo": "Note sugli avversari",
+      "testo": [
+        "Ogni giocatore ha abitudini: c'è chi gioca pochissime mani (nit), chi chiama sempre (calling station), chi rilancia tutto (maniac).",
+        "Scrivi quello che vedi davvero (mani mostrate, posizione, stack) e assegna un profilo provvisorio: l'app ti ricorda come adattarti.",
+        "Le note restano solo sul tuo telefono."
+      ],
+      "esempio": "\"Marco, BTN, 18 BB: ha chiamato un all-in con K8o\" → probabilmente chiama largo gli shove.",
+      "alTavolo": "Un singolo episodio è un indizio: cambia strategia solo dopo qualche conferma."
+    },
+    "size": {
+      "titolo": "Size: quanto puntare",
+      "testo": [
+        "La size è quanto punti o rilanci. Preflop si misura in BB, dopo il flop in percentuale del piatto.",
+        "Open raise: il primo rilancio, di solito 2–2,5 BB. 3-bet: il rilancio sopra un rilancio, circa 3 volte se sei in posizione (parli dopo di lui) e 4 volte se sei fuori posizione.",
+        "Dopo il flop: puntate piccole (25–33% del piatto) su board \"secchi\" (es. K-7-2 di semi diversi), più grandi (50–75%) su board con tanti progetti."
+      ],
+      "esempio": "Bui 100/200: open 500 (2,5 BB). Se un avversario apre a 500 e tu sei sul bottone, 3-bet a circa 1500.",
+      "alTavolo": "La tabella fa i conti in fiches con i bui attuali."
+    },
+    "spr": {
+      "titolo": "SPR (stack-to-pot ratio)",
+      "testo": [
+        "SPR = stack effettivo rimasto ÷ piatto al flop. Dice quante \"puntate da piatto\" restano da giocare.",
+        "SPR basso (sotto 3): con una buona coppia sei spesso pronto ad andare all-in. SPR alto (sopra 6): per mettere tutto lo stack servono mani molto forti."
+      ],
+      "esempio": "Piatto al flop 1000, ti restano 2500 → SPR 2,5: top pair è quasi sempre buona per l'all-in.",
+      "alTavolo": "Calcolalo appena esce il flop per decidere subito fin dove arrivare con la tua mano."
+    }
+  }
+}
