@@ -10,9 +10,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Tavolo',
-        short_name: 'Tavolo',
-        description: 'Appunti e calcoli per tornei casalinghi',
+        name: 'PokerAssistant',
+        short_name: 'PokerAssistant',
+        description: 'Range, equity, push/fold e ICM per tornei casalinghi di Texas Hold\'em',
         lang: 'it',
         start_url: './',
         scope: './',

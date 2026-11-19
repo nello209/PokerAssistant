@@ -14,7 +14,7 @@ export function SettingsScreen() {
     const blob = new Blob([JSON.stringify(getState(), null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `tavolo-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `pokerassistant-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   };

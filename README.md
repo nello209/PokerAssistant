@@ -1,4 +1,6 @@
-# Tavolo: assistente per tornei casalinghi di Texas Hold'em
+# PokerAssistant: assistente per tornei casalinghi di Texas Hold'em
+
+App online: <https://nello209.github.io/PokerAssistant/>
 
 App per il telefono (PWA) da tenere aperta al tavolo. Funziona **senza internet** dopo la prima apertura,
 non ha server né login, e tutti i dati restano sul telefono.
@@ -75,14 +77,14 @@ Notazione dei range: `77+` (77 fino ad AA), `ATs+` (ATs, AJs, AQs, AKs), `A5s-A2
 ## 3. Pubblicarla gratis su GitHub Pages
 
 GitHub è un sito che conserva il codice; **GitHub Pages** lo trasforma gratis in un sito web con indirizzo
-`https://TUO-NOME.github.io/tavolo/`. Una volta configurato, ogni aggiornamento viene ripubblicato da solo.
+`https://TUO-NOME.github.io/PokerAssistant/`. Una volta configurato, ogni aggiornamento viene ripubblicato da solo.
 
 **Cosa fai tu (una volta sola):**
 
 1. **Crea un account** su <https://github.com/signup> (gratuito). Il nome utente farà parte dell'indirizzo
    dell'app: scegline uno che ti va bene vedere.
 2. **Crea un repository vuoto**: in alto a destra **+** → **New repository**.
-   - *Repository name*: `tavolo` (o un altro nome: sarà l'ultima parte dell'indirizzo).
+   - *Repository name*: `PokerAssistant` (o un altro nome: sarà l'ultima parte dell'indirizzo).
    - Scegli **Public**: con l'account gratuito GitHub Pages funziona solo con repository pubblici. Vuol dire che
      il codice e i range sono visibili a chi conosce l'indirizzo; il file Excel e i tuoi dati personali (note, stack)
      **non** vengono caricati.
@@ -96,7 +98,7 @@ GitHub è un sito che conserva il codice; **GitHub Pages** lo trasforma gratis i
 **Cosa faccio io** (per riferimento, sono questi comandi):
 
 ```powershell
-git remote add origin https://github.com/TUO-NOME/tavolo.git
+git remote add origin https://github.com/TUO-NOME/PokerAssistant.git
 ```
 
 ```powershell
@@ -104,7 +106,7 @@ git push -u origin main
 ```
 
 Dopo 1–2 minuti, nella scheda **Actions** del repository compare un segno verde e l'app è online su
-`https://TUO-NOME.github.io/tavolo/`. Se compare una ✕ rossa, aprila: di solito vuol dire che al punto 3
+`https://TUO-NOME.github.io/PokerAssistant/`. Se compare una ✕ rossa, aprila: di solito vuol dire che al punto 3
 non era stato scelto "GitHub Actions".
 
 ---
@@ -116,7 +118,7 @@ Apri l'indirizzo dell'app **una volta con internet**, poi:
 **Android (Chrome)**
 1. Apri l'indirizzo in **Chrome**.
 2. Tocca il menu **⋮** in alto a destra → **Aggiungi a schermata Home** (oppure **Installa app**).
-3. Conferma con **Installa**. Compare l'icona "Tavolo" (una piccola griglia dorata) fra le app.
+3. Conferma con **Installa**. Compare l'icona "PokerAssistant" (una piccola griglia dorata) fra le app.
 
 **iPhone (Safari)**: deve essere Safari, non Chrome.
 1. Apri l'indirizzo in **Safari**.
