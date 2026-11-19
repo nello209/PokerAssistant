@@ -82,7 +82,15 @@ describe('esempi passo passo', () => {
     near(one.equity[0], 0.671, 0.01);
     near(two.equity[0], 0.504, 0.01);
   });
-  it('outs progetto: 14 puliti + 1 sporco, 29,8% / 51,2%', () => {
+  it('progetto di colore al turn: Q♠9♠ su 3♠6♠J♦7♥ = 9 outs (7 sicuri), 19,6% / 15,2%', () => {
+    const o = countOuts(H('Qs9s'), H('3s6sJd7h'))!;
+    expect([o.strong, o.clean]).toEqual([9, 7]);
+    near(o.pNextAll, 0.196, 0.001);
+    near(o.pNext, 0.152, 0.001);
+  });
+  it('outs progetto: 15 outs (14 sicuri), 31,9% / 54,1% e 29,8% / 51,2%', () => {
+    near(countOuts(H('9h8h'), H('7h6c2h'))!.pNextAll, 0.319, 0.001);
+    near(countOuts(H('9h8h'), H('7h6c2h'))!.pBothAll!, 0.541, 0.001);
     const o = countOuts(H('9h8h'), H('7h6c2h'))!;
     expect([o.clean, o.strong]).toEqual([14, 15]);
     near(o.pNext, 0.298, 0.001);

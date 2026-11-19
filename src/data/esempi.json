@@ -132,7 +132,7 @@
             "Aggiungi il turn 3♦ e guarda il riquadro Outs."
           ],
           "risultato": "Al flop hai il 33,8%. Al turn il 22,7%: «10 carte ti mettono avanti» (i cuori dal 4 al T e i tre dieci; il 2♥ e il 3♥ danno poker o full a lui).",
-          "impari": "Outs puliti: non tutte le carte del tuo seme ti fanno vincere."
+          "impari": "Contro una mano nota non tutte le carte del tuo seme ti fanno vincere: l'app conta quelle che ti mettono davvero avanti."
         },
         {
           "titolo": "Più avversari",
@@ -148,8 +148,15 @@
           "titolo": "Contare gli outs di un progetto",
           "situazione": "Hai 9♥8♥, flop 7♥ 6♣ 2♥: progetto di colore e di scala.",
           "passi": ["Mano 9♥ 8♥, Board 7♥ 6♣ 2♥: guarda il riquadro Outs."],
-          "risultato": "14 outs puliti + 1 sporco (il 6♥ appaia il board: possibile full). Prossima carta 29,8%, entro il river 51,2% (con tutti e 15: 31,9% e 54,1%).",
-          "impari": "Il 51% «entro il river» vale solo se vedi due carte senza pagare altro (sei all-in)."
+          "risultato": "15 outs, di cui 1 meno sicuro (il 6♥ appaia il board: possibile full). Prossima carta 31,9%, entro il river 54,1%. Contando solo i 14 sicuri: 29,8% e 51,2%.",
+          "impari": "Il 54% «entro il river» vale solo se vedi due carte senza pagare altro (sei all-in)."
+        },
+        {
+          "titolo": "Progetto di colore al turn",
+          "situazione": "Hai Q♠9♠, board 3♠ 6♠ J♦ 7♥: quattro picche, ti manca il river.",
+          "passi": ["Mano Q♠ 9♠, Board 3♠ 6♠ J♦ 7♥: guarda il riquadro Outs."],
+          "risultato": "9 outs (le 9 picche rimaste), river 19,6%, regola rapida 9 × 2 = 18%. Due sono meno sicuri: 7♠ e J♠ appaiano il board e chi ha già doppia coppia o tris farebbe full. Contando solo i 7 sicuri: 15,2%.",
+          "impari": "Un progetto di colore sono sempre 9 outs; l'asterisco ti avvisa solo che su quelle carte il colore non è imbattibile."
         }
       ]
     },

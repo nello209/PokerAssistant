@@ -94,7 +94,7 @@
       "titolo": "Gli outs",
       "testo": [
         "Gli outs sono le carte ancora nel mazzo che migliorano la tua mano fino a un punto che probabilmente vince.",
-        "Puliti: ti danno scala o meglio senza aiutare troppo l'avversario. Sporchi: completano anche mani migliori possibili per lui (per esempio appaiano il board e rendono possibile un full).",
+        "Il numero grande conta tutti gli outs, come si fa al tavolo (progetto di colore = 9). Quelli con l'asterisco sono meno sicuri: per esempio appaiano il board e all'avversario diventa possibile un full. Di solito vinci lo stesso, ma non sempre: per questo sotto trovi anche la percentuale contando solo quelli sicuri.",
         "La percentuale \"Turn\" (o \"River\") è la probabilità di prendere un out con la prossima carta; \"Entro il river\" con le due carte che mancano, ma vale solo se le vedi entrambe senza pagare altro (cioè se sei all-in).",
         "Regola rapida: outs × 2 per una carta, outs × 4 per due carte."
       ],

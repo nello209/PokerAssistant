@@ -14,7 +14,7 @@ ci sono gli **esempi passo passo** di ogni funzione (con i numeri che l'app calc
 | **Configurazione: Struttura** | Partecipanti, stack iniziale, durata massima (1–6 ore), ante facoltative (nessuna / a testa / BB ante), durata dei livelli → l'app **genera la struttura dei bui** con orari, bui arrotondati a valori comodi e livelli di riserva. |
 | **Configurazione: In gioco** | Livello attuale (o lo aggiorna il timer), giocatori ancora al tavolo, il tuo stack e quello degli avversari in BB o fiches. |
 | **Preflop** | Scegli il tuo posto toccandolo su un **tavolo disegnato** (con il bottone D); "Mano dopo ⟳" sposta la posizione di un posto. Range di apertura 13×13 per la tua posizione, adattato al numero di giocatori e allo stack. Profili Prudente (dal foglio Excel) e Standard. Celle modificabili. Sotto i 10 BB passa da solo al push/fold. |
-| **Mano** | Selettore carte rapido → "Cosa ho", outs puliti con percentuali, equity contro 1–9 avversari (mano precisa, range o casuale), pot odds con verdetto CALL +EV / FOLD. |
+| **Mano** | Selettore carte rapido → "Cosa ho", outs (con quelli meno sicuri segnati) e percentuali, equity contro 1–9 avversari (mano precisa, range o casuale), pot odds con verdetto CALL +EV / FOLD. |
 | **Push/Fold** | Range di shove e di call contro shove calcolati con l'equilibrio di Nash (heads-up esatto nel modello, tavolo pieno approssimato). |
 | **ICM** | Facoltativa. Calcolo dei premi dal montepremi (iscrizioni + **rebuy fatti**), valore in premi degli stack (Malmuth-Harville), chip chop e divisione uguale, per gli accordi finali. |
 | **Altro** | Note sugli avversari per profilo, timer dei bui condivisibile con QR, SPR e size rapide, guida, impostazioni e backup. |

@@ -167,28 +167,31 @@ export function Hand() {
           <SecHead label={`Outs (${outs.street === 'flop' ? 'dal flop' : 'dal turn'})`} info="outs" />
           <div class="row">
             <div class="grow">
-              <div style={{ fontSize: '28px', fontWeight: 800 }}>{outs.clean} <span class="small muted">puliti</span></div>
-              {outs.strong > outs.clean && <div class="small warn">+{outs.strong - outs.clean} sporchi</div>}
+              <div style={{ fontSize: '28px', fontWeight: 800 }}>{outs.strong} <span class="small muted">outs</span></div>
+              {outs.strong > outs.clean && <div class="small warn">di cui {outs.strong - outs.clean} meno sicuri (*)</div>}
               {outs.weak > 0 && <div class="small muted">+{outs.weak} che migliorano poco (coppia, doppia, tris)</div>}
             </div>
             <div class="kv" style={{ minWidth: '170px' }}>
-              <span>{outs.street === 'flop' ? 'Turn' : 'River'}</span><b>{fmtPct(outs.pNext)}</b>
-              {outs.pBoth !== null && <><span>Entro il river</span><b>{fmtPct(outs.pBoth)}</b></>}
-              <span>Regola rapida</span><span>{outs.street === 'flop' ? ruleOf4(outs.clean) : ruleOf2(outs.clean)}%</span>
+              <span>{outs.street === 'flop' ? 'Turn' : 'River'}</span><b>{fmtPct(outs.pNextAll)}</b>
+              {outs.pBothAll !== null && <><span>Entro il river</span><b>{fmtPct(outs.pBothAll)}</b></>}
+              <span>Regola rapida</span><span>{outs.street === 'flop' ? ruleOf4(outs.strong) : ruleOf2(outs.strong)}%</span>
             </div>
           </div>
+          {outs.strong > outs.clean && (
+            <div class="tiny muted mt">Contando solo i {outs.clean} sicuri: {outs.street === 'flop' ? 'turn' : 'river'} {fmtPct(outs.pNext)}{outs.pBoth !== null && <> · entro il river {fmtPct(outs.pBoth)}</>}. La verità sta in mezzo, più vicina al numero grande.</div>
+          )}
           {outs.outs.filter((o) => o.strong).length > 0 && (
             <div class="small mt" style={{ lineHeight: 1.8 }}>
               {groupOuts(outs.outs.filter((o) => o.strong)).map(([label, list]) => (
                 <div key={label}><span class="muted">{label}:</span> {list.map((o) => <span key={o.card} style={{ marginRight: '6px', opacity: o.dirty ? 0.55 : 1 }}><CardText c={o.card} />{o.dirty ? '*' : ''}</span>)}</div>
               ))}
-              {outs.strong > outs.clean && <div class="tiny muted">* sporco: {outs.outs.find((o) => o.dirty)?.note}</div>}
+              {outs.strong > outs.clean && <div class="tiny muted">* meno sicuro: {outs.outs.find((o) => o.dirty)?.note}. Di solito vinci lo stesso, ma non sempre.</div>}
             </div>
           )}
           {outs.vsHand && (
             <div class="small mt">{outs.vsHand.ahead ? <span class="good">Sei avanti contro la mano dell'avversario.</span> : <>Contro la mano dell'avversario: <b>{outs.vsHand.outs.length} carte</b> ti mettono avanti.</>}</div>
           )}
-          <div class="tiny muted mt">Outs puliti = carte che ti danno scala o meglio senza appaiare il board né completare un colore possibile. Ipotesi: 47 carte ignote al flop, 46 al turn.</div>
+          <div class="tiny muted mt">Outs = carte che ti danno scala o meglio. Quelli con * appaiano il board (all'avversario diventa possibile un full) o mettono tre carte dello stesso seme (possibile colore). Ipotesi: 47 carte ignote al flop, 46 al turn.</div>
         </div>
       )}
 
