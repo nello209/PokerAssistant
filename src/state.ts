@@ -1,13 +1,18 @@
 // Stato dell'app, salvato in localStorage.
 import { useEffect, useState } from 'preact/hooks';
-import strutture from './data/strutture.json';
 import type { ProfileId } from './engine/openRanges.ts';
+import { generateStructure, type AnteMode } from './engine/structure.ts';
 
-export interface Level { sb: number; bb: number; ante: number; min: number }
-export type AnteType = 'testa' | 'bb';
+export interface Level { sb: number; bb: number; ante: number; min: number; extra?: boolean }
+export type AnteType = AnteMode;
+
+export interface GenSettings { hours: number; levelMin: number }
 
 export interface Config {
+  /** giocatori ancora seduti al tavolo (decide le posizioni) */
   players: number;
+  /** partecipanti al torneo (decide la struttura dei bui) */
+  entrants: number;
   startingStack: number;
   levels: Level[];
   levelIndex: number;
@@ -16,13 +21,16 @@ export interface Config {
   oppStacks: number[];
   anteType: AnteType;
   structureId: string;
+  gen: GenSettings;
 }
+
+export type Unit = 'bb' | 'chips';
 
 export interface Note { id: string; name: string; profile: string; entries: { t: number; text: string }[] }
 
 export interface TimerState { running: boolean; startedAt: number; elapsedBefore: number; followShared?: boolean }
 
-export interface Settings { wakeLock: boolean; discreet: boolean; timerDrivesLevel: boolean; seenSetup: boolean }
+export interface Settings { wakeLock: boolean; discreet: boolean; timerDrivesLevel: boolean; seenSetup: boolean; unit: Unit }
 
 export interface AppState {
   v: 1;
@@ -38,33 +46,33 @@ export interface AppState {
 
 const KEY = 'tavolo-state-v1';
 
-const toLevels = (rows: number[][]): Level[] => rows.map(([sb, bb, ante, min]) => ({ sb, bb, ante, min }));
-
 export function defaultState(): AppState {
-  const s = strutture.strutture[1];
+  const entrants = 8, stack = 10000;
+  const gen = { hours: 3, levelMin: 0 };
+  const g = generateStructure({ entrants, startingStack: stack, hours: gen.hours, levelMin: gen.levelMin, ante: 'none' });
   return {
     v: 1,
     config: {
-      players: 8,
-      startingStack: s.stackIniziale,
-      levels: toLevels(s.livelli),
+      players: entrants,
+      entrants,
+      startingStack: stack,
+      levels: g.levels,
       levelIndex: 0,
-      myStack: s.stackIniziale,
+      myStack: stack,
       oppStacks: [],
-      anteType: 'testa',
-      structureId: s.id,
+      anteType: 'none',
+      structureId: 'generata',
+      gen,
     },
     profile: 'prudente',
     mySeat: '',
     overrides: {},
     notes: [],
     timer: { running: false, startedAt: 0, elapsedBefore: 0 },
-    settings: { wakeLock: true, discreet: false, timerDrivesLevel: true, seenSetup: false },
+    settings: { wakeLock: true, discreet: false, timerDrivesLevel: true, seenSetup: false, unit: 'bb' },
     prizes: [50, 30, 20],
   };
 }
-
-export const STRUCTURES = strutture.strutture.map((s) => ({ id: s.id, nome: s.nome, stackIniziale: s.stackIniziale, levels: toLevels(s.livelli) }));
 
 function load(): AppState {
   try {
@@ -72,7 +80,9 @@ function load(): AppState {
     if (raw) {
       const parsed = JSON.parse(raw);
       const d = defaultState();
-      return { ...d, ...parsed, config: { ...d.config, ...parsed.config }, settings: { ...d.settings, ...parsed.settings }, timer: { ...d.timer, ...parsed.timer } };
+      const config = { ...d.config, ...parsed.config };
+      if (!parsed.config?.entrants) config.entrants = config.players;
+      return { ...d, ...parsed, config, settings: { ...d.settings, ...parsed.settings }, timer: { ...d.timer, ...parsed.timer } };
     }
   } catch { /* storage non disponibile: si riparte dai default */ }
   return defaultState();
@@ -129,7 +139,7 @@ export function derive(s: AppState): Derived {
   const effStack = opps.length ? Math.min(c.myStack, Math.max(...opps)) : c.myStack;
   const antePerPlayerBB = c.anteType === 'testa' ? level.ante / bb : 0;
   const bbAnteBB = c.anteType === 'bb' ? level.ante / bb : 0;
-  const anteTotal = c.anteType === 'testa' ? level.ante * c.players : level.ante;
+  const anteTotal = c.anteType === 'testa' ? level.ante * c.players : c.anteType === 'bb' ? level.ante : 0;
   return {
     level, myBB: c.myStack / bb, effBB: effStack / bb, effStack,
     antePerPlayerBB, bbAnteBB, anteTotal,
@@ -157,3 +167,10 @@ export function timerPosition(levels: Level[], elapsedMs: number) {
 export const fmtNum = (n: number, d = 1) => (Number.isFinite(n) ? n.toLocaleString('it-IT', { maximumFractionDigits: d }) : '—');
 export const fmtPct = (p: number, d = 1) => (Number.isFinite(p) ? (p * 100).toLocaleString('it-IT', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%' : '—');
 export const fmtChips = (n: number) => (Number.isFinite(n) ? Math.round(n).toLocaleString('it-IT') : '—');
+
+/** Importo in fiches mostrato nell'unità scelta (BB o fiches). */
+export const fmtAmount = (chips: number, bb: number, unit: Unit) =>
+  unit === 'bb' ? `${fmtNum(chips / (bb || 1))} BB` : `${fmtChips(chips)} fiches`;
+
+/** Ante del livello che conta davvero (0 se il torneo è senza ante). */
+export const levelAnte = (s: AppState, l: Level) => (s.config.anteType === 'none' ? 0 : l.ante);

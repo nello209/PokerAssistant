@@ -1,84 +1,201 @@
-import { useState } from 'preact/hooks';
-import { useAppState, setState, STRUCTURES, derive, fmtNum, type Level } from '../state.ts';
+import { useMemo, useState } from 'preact/hooks';
+import { useAppState, setState, derive, fmtNum, fmtChips, levelAnte, type Level, type AnteType, type Unit } from '../state.ts';
 import { Modal, NumField, Seg } from '../components/ui.tsx';
 import { InfoInline } from '../components/Info.tsx';
+import { generateStructure, fmtClock } from '../engine/structure.ts';
 
-export function Setup({ onClose }: { onClose: () => void }) {
-  const s = useAppState();
-  const c = s.config;
-  const d = derive(s);
-  const [oppText, setOppText] = useState(c.oppStacks.join(' '));
-  const upd = (fn: (cfg: typeof c) => void) => setState((x) => { fn(x.config); });
-  const L = c.levels;
+type Tab = 'struttura' | 'gioco';
 
+export function Setup({ onClose, firstTime }: { onClose: () => void; firstTime: boolean }) {
+  const [tab, setTab] = useState<Tab>(firstTime ? 'struttura' : 'gioco');
   return (
     <Modal title="Torneo" onClose={onClose}>
-      <p class="small muted" style={{ marginTop: 0 }}>Inserisci i dati del torneo: l'app li usa per calcolare il tuo stack in BB e adattare range e consigli. Puoi tornare qui in qualsiasi momento toccando la barra in alto.</p>
-      <div class="mb"><InfoInline info="barra" /></div>
-      <label class="field"><span>Giocatori al tavolo</span></label>
-      <div class="chips mb">
-        {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-          <button type="button" key={n} class={'chip' + (c.players === n ? ' on' : '')} onClick={() => upd((x) => { x.players = n; })}>{n}</button>
-        ))}
+      <div class="mb">
+        <Seg value={tab} onChange={setTab} options={[{ v: 'struttura', l: '1 · Struttura' }, { v: 'gioco', l: '2 · In gioco' }]} />
       </div>
-
-      <label class="field">
-        <span>Struttura dei bui</span>
-        <select value={c.structureId} onChange={(e) => {
-          const st = STRUCTURES.find((x) => x.id === (e.target as HTMLSelectElement).value);
-          if (st) upd((x) => { x.structureId = st.id; x.levels = st.levels.map((l) => ({ ...l })); x.startingStack = st.stackIniziale; x.levelIndex = 0; x.myStack = st.stackIniziale; });
-          else upd((x) => { x.structureId = 'custom'; });
-        }}>
-          {STRUCTURES.map((st) => <option key={st.id} value={st.id}>{st.nome}</option>)}
-          <option value="custom">Personalizzata (modifica sotto)</option>
-        </select>
-      </label>
-
-      <div class="row">
-        <div class="grow"><NumField label="Stack iniziale" value={c.startingStack} step={500} onChange={(v) => upd((x) => { x.startingStack = v; })} /></div>
-        <div class="grow">
-          <label class="field"><span>Ante</span></label>
-          <Seg value={c.anteType} options={[{ v: 'testa', l: 'a testa' }, { v: 'bb', l: 'BB ante' }]} onChange={(v) => upd((x) => { x.anteType = v; })} />
-        </div>
-      </div>
-
-      <NumField label={`Livello attuale (di ${L.length})`} value={c.levelIndex + 1} min={1} max={L.length} onChange={(v) => upd((x) => { x.levelIndex = Math.round(v) - 1; })}
-        hint={`Bui ${fmtNum(d.level.sb, 0)}/${fmtNum(d.level.bb, 0)}${d.level.ante ? ', ante ' + fmtNum(d.level.ante, 0) : ''} · ${d.level.min} minuti`} />
-
-      <NumField label="Il mio stack (fiches)" value={c.myStack} step={Math.max(d.level.bb, 1)} onChange={(v) => upd((x) => { x.myStack = v; })}
-        hint={`= ${fmtNum(d.myBB)} BB · M ${fmtNum(d.m)}`} />
-      <div class="row mb">
-        <button type="button" class="btn sm" onClick={() => upd((x) => { x.myStack = x.startingStack; })}>= stack iniziale</button>
-        <button type="button" class="btn sm" onClick={() => {
-          const v = prompt('Il mio stack in BB', fmtNum(d.myBB));
-          const n = v ? parseFloat(v.replace(',', '.')) : NaN;
-          if (Number.isFinite(n)) upd((x) => { x.myStack = Math.round(n * d.level.bb); });
-        }}>Inserisci in BB</button>
-      </div>
-
-      <label class="field">
-        <span>Stack degli avversari (facoltativo, separati da spazio)</span>
-        <input type="text" inputMode="decimal" value={oppText} placeholder="es. 8000 12000 4500"
-          onInput={(e) => {
-            const t = (e.target as HTMLInputElement).value; setOppText(t);
-            const arr = t.split(/[\s;]+/).map((x) => parseFloat(x.replace(',', '.'))).filter((x) => Number.isFinite(x) && x > 0);
-            upd((x) => { x.oppStacks = arr; });
-          }} />
-        <small class="muted tiny">Serve per lo stack effettivo (il minore fra il tuo e quello del più grande avversario) e per l'ICM. Se vuoto, effettivo = il tuo stack.</small>
-      </label>
-
-      <details>
-        <summary>Modifica i livelli ({L.length})</summary>
-        <LevelsEditor levels={L} onChange={(lv) => upd((x) => { x.levels = lv; x.structureId = 'custom'; x.levelIndex = Math.min(x.levelIndex, lv.length - 1); })} />
-      </details>
-
-      <button type="button" class="btn primary block mt" onClick={onClose}>Fatto</button>
+      {tab === 'struttura' ? <StructureTab onDone={() => setTab('gioco')} /> : <PlayTab onClose={onClose} />}
     </Modal>
   );
 }
 
+// ------------------------------------------------------------------ Struttura
+
+const HOURS = [1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6];
+const STACKS = [1500, 3000, 5000, 10000, 20000];
+
+function StructureTab({ onDone }: { onDone: () => void }) {
+  const s = useAppState();
+  const c = s.config;
+  const [entrants, setEntrants] = useState(c.entrants);
+  const [stack, setStack] = useState(c.startingStack);
+  const [hours, setHours] = useState(c.gen.hours);
+  const [levelMin, setLevelMin] = useState(c.gen.levelMin);
+  const [ante, setAnte] = useState<AnteType>(c.anteType);
+
+  const g = useMemo(() => generateStructure({ entrants, startingStack: stack, hours, levelMin, ante }), [entrants, stack, hours, levelMin, ante]);
+  const inUse = JSON.stringify(g.levels) === JSON.stringify(c.levels) && c.startingStack === stack && c.entrants === entrants;
+
+  const apply = () => {
+    if (s.timer.running && !confirm('Il timer è in corso: la nuova struttura ripartirà dal livello 1. Continuare?')) return;
+    setState((x) => {
+      x.config.entrants = entrants;
+      x.config.players = Math.min(x.config.players, entrants) || entrants;
+      if (x.config.startingStack !== stack || !x.settings.seenSetup) x.config.myStack = stack;
+      x.config.startingStack = stack;
+      x.config.levels = g.levels.map((l) => ({ ...l }));
+      x.config.levelIndex = 0;
+      x.config.anteType = ante;
+      x.config.gen = { hours, levelMin };
+      x.config.structureId = 'generata';
+      x.timer = { running: false, startedAt: 0, elapsedBefore: 0 };
+    });
+    onDone();
+  };
+
+  let t = 0;
+  return (
+    <div>
+      <p class="small muted" style={{ marginTop: 0 }}>Imposta il torneo prima di iniziare: l'app propone livelli e bui adatti a quanti siete, alle fiches e al tempo che avete.</p>
+
+      <label class="field"><span>Partecipanti al torneo</span></label>
+      <div class="chips mb">
+        {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => <button type="button" key={n} class={'chip' + (entrants === n ? ' on' : '')} onClick={() => setEntrants(n)}>{n}</button>)}
+      </div>
+
+      <NumField label="Stack iniziale di ognuno (fiches)" value={stack} step={500} min={100} onChange={setStack} />
+      <div class="chips mb" style={{ marginTop: '-4px' }}>
+        {STACKS.map((v) => <button type="button" key={v} class={'chip' + (stack === v ? ' on' : '')} style={{ minHeight: '38px', fontSize: '14px' }} onClick={() => setStack(v)}>{fmtChips(v)}</button>)}
+      </div>
+
+      <label class="field"><span>Quanto volete giocare al massimo?</span></label>
+      <div class="chips mb">
+        {HOURS.map((h) => <button type="button" key={h} class={'chip' + (hours === h ? ' on' : '')} style={{ minWidth: '52px' }} onClick={() => setHours(h)}>{fmtNum(h)} h</button>)}
+      </div>
+
+      <label class="field"><span>Ante (facoltative)</span></label>
+      <div class="mb"><Seg value={ante} onChange={setAnte} options={[{ v: 'none', l: 'Nessuna' }, { v: 'testa', l: 'A testa' }, { v: 'bb', l: 'BB ante' }]} /></div>
+      <div class="mb"><InfoInline info="ante" /></div>
+
+      <label class="field"><span>Durata dei livelli</span></label>
+      <div class="mb"><Seg value={levelMin} onChange={setLevelMin} options={[{ v: 0, l: 'Auto' }, { v: 10, l: "10'" }, { v: 15, l: "15'" }, { v: 20, l: "20'" }, { v: 30, l: "30'" }]} /></div>
+
+      <div class="card" style={{ background: 'var(--bg)' }}>
+        <div class="row mb"><b class="grow">Struttura proposta</b>{inUse && <span class="small good">✓ in uso</span>}</div>
+        <div class="kv mb">
+          <span>Livelli</span><b>{g.planned} da {g.levelMin} minuti</b>
+          <span>Fiches in gioco</span><b>{fmtChips(g.totalChips)}</b>
+          <span>Si parte con</span><b>{fmtNum(g.startDepth, 0)} BB a testa</b>
+          <span>I bui crescono</span><b>~{fmtNum((g.growth - 1) * 100, 0)}% a livello</b>
+          <span>Fiche più piccola</span><b>{fmtChips(g.minChip)}</b>
+        </div>
+        {g.warning && <div class="small warn mb">{g.warning}</div>}
+        <table class="t">
+          <thead><tr><th>Liv.</th><th>Inizio</th><th>Bui</th><th>Ante</th><th>Stack in BB</th></tr></thead>
+          <tbody>
+            {g.levels.map((l, i) => {
+              const start = t; t += l.min;
+              return (
+                <tr key={i} style={l.extra ? { opacity: 0.5 } : undefined}>
+                  <td>{i + 1}{l.extra ? '*' : ''}</td>
+                  <td>{fmtClock(start)}</td>
+                  <td><b>{fmtChips(l.sb)}/{fmtChips(l.bb)}</b></td>
+                  <td>{l.ante ? fmtChips(l.ante) : '—'}</td>
+                  <td>{fmtNum(stack / l.bb, 0)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <div class="tiny muted mt">
+          * Livelli di riserva, oltre le {fmtNum(hours)} h: servono solo se il torneo si allunga.
+          "Stack in BB" = lo stack iniziale diviso il big blind: quando scende sotto ~15 si gioca a push/fold.
+          All'ultimo livello previsto ({fmtChips(g.levels[g.planned - 1].sb)}/{fmtChips(g.endBB)}) due giocatori rimasti avrebbero in media {fmtNum(g.totalChips / 2 / g.endBB, 0)} BB: il torneo di solito finisce prima.
+        </div>
+        <div class="mt"><InfoInline info="struttura" /></div>
+      </div>
+
+      <button type="button" class="btn primary block" disabled={inUse} onClick={apply}>{inUse ? 'Struttura già in uso' : 'Usa questa struttura'}</button>
+
+      <details class="mt">
+        <summary>Modifica i livelli a mano ({c.levels.length})</summary>
+        <div class="tiny muted mb">Cambia i valori della struttura in uso. Se poi premi "Usa questa struttura", le modifiche a mano vengono sostituite.</div>
+        <LevelsEditor levels={c.levels} onChange={(lv) => setState((x) => { x.config.levels = lv; x.config.structureId = 'custom'; x.config.levelIndex = Math.min(x.config.levelIndex, lv.length - 1); })} />
+      </details>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------ In gioco
+
+function PlayTab({ onClose }: { onClose: () => void }) {
+  const s = useAppState();
+  const c = s.config;
+  const d = derive(s);
+  const unit = s.settings.unit;
+  const bb = d.level.bb || 1;
+  const toUnit = (chips: number) => (unit === 'bb' ? Math.round((chips / bb) * 10) / 10 : chips);
+  const fromUnit = (v: number) => (unit === 'bb' ? Math.round(v * bb) : v);
+  const [oppText, setOppText] = useState(() => c.oppStacks.map((x) => toUnit(x)).join(' '));
+  const upd = (fn: (cfg: typeof c) => void) => setState((x) => { fn(x.config); });
+  const setUnit = (u: Unit) => {
+    setState((x) => { x.settings.unit = u; });
+    setOppText(c.oppStacks.map((x) => (u === 'bb' ? Math.round((x / bb) * 10) / 10 : x)).join(' '));
+  };
+  const L = c.levels;
+  const timerOn = s.timer.running && s.settings.timerDrivesLevel;
+  const ante = levelAnte(s, d.level);
+  const planned = L.filter((l) => !l.extra).length || L.length;
+  const anteFrom = L.findIndex((l) => l.ante > 0) + 1;
+
+  return (
+    <div>
+      <label class="field"><span>Livello attuale</span></label>
+      <div class="row mb">
+        <button type="button" class="btn" disabled={c.levelIndex <= 0 || timerOn} onClick={() => upd((x) => { x.levelIndex--; })} aria-label="livello precedente">−</button>
+        <div class="grow center">
+          <div style={{ fontSize: '20px', fontWeight: 800 }}>{fmtChips(d.level.sb)} / {fmtChips(d.level.bb)}</div>
+          <div class="tiny muted">Livello {c.levelIndex + 1} di {planned}{L.length > planned ? ` (+${L.length - planned} di riserva)` : ''} · {ante ? `ante ${fmtChips(ante)}${c.anteType === 'bb' ? ' (BB ante)' : ' a testa'}` : c.anteType === 'none' ? 'senza ante' : anteFrom > 0 ? `ante dal livello ${anteFrom}` : 'senza ante'}</div>
+        </div>
+        <button type="button" class="btn" disabled={c.levelIndex >= L.length - 1 || timerOn} onClick={() => upd((x) => { x.levelIndex++; })} aria-label="livello successivo">+</button>
+      </div>
+      {timerOn && <div class="tiny good mb">Il livello è aggiornato dal timer dei bui.</div>}
+
+      <label class="field"><span>Giocatori ancora al tavolo</span></label>
+      <div class="chips mb">
+        {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => <button type="button" key={n} class={'chip' + (c.players === n ? ' on' : '')} disabled={n > Math.max(c.entrants, 2) && n > c.players} onClick={() => upd((x) => { x.players = n; })}>{n}</button>)}
+      </div>
+      <div class="tiny muted mb" style={{ marginTop: '-4px' }}>Quando qualcuno viene eliminato, abbassa il numero: cambiano le posizioni e i range.</div>
+
+      <div class="row" style={{ alignItems: 'flex-end' }}>
+        <div class="grow">
+          <NumField label={`Il mio stack (${unit === 'bb' ? 'in BB' : 'fiches'})`} value={toUnit(c.myStack)} step={unit === 'bb' ? 1 : bb} onChange={(v) => upd((x) => { x.myStack = fromUnit(v); })}
+            hint={unit === 'bb' ? `= ${fmtChips(c.myStack)} fiches` : `= ${fmtNum(d.myBB)} BB · M ${fmtNum(d.m)}`} />
+        </div>
+      </div>
+      <div class="row mb">
+        <div class="grow"><Seg value={unit} onChange={setUnit} options={[{ v: 'bb', l: 'In BB' }, { v: 'chips', l: 'In fiches' }]} /></div>
+        <button type="button" class="btn sm" onClick={() => upd((x) => { x.myStack = x.startingStack; })}>= iniziale</button>
+      </div>
+
+      <label class="field">
+        <span>Stack degli avversari ({unit === 'bb' ? 'in BB' : 'fiches'}, facoltativo, separati da spazio)</span>
+        <input type="text" inputMode="decimal" value={oppText} placeholder={unit === 'bb' ? 'es. 40 25 60' : 'es. 8000 12000 4500'}
+          onInput={(e) => {
+            const txt = (e.target as HTMLInputElement).value; setOppText(txt);
+            const arr = txt.split(/[\s;]+/).map((x) => parseFloat(x.replace(',', '.'))).filter((x) => Number.isFinite(x) && x > 0).map(fromUnit);
+            upd((x) => { x.oppStacks = arr; });
+          }} />
+        <small class="muted tiny">Serve per lo stack effettivo (il minore fra il tuo e quello del più grande avversario) e per l'ICM. Se vuoto, effettivo = il tuo stack.</small>
+      </label>
+      <div class="mb"><InfoInline info="barra" /></div>
+
+      <button type="button" class="btn primary block mt" onClick={onClose}>Fatto</button>
+    </div>
+  );
+}
+
 function LevelsEditor({ levels, onChange }: { levels: Level[]; onChange: (l: Level[]) => void }) {
-  const set = (i: number, k: keyof Level, v: string) => {
+  const set = (i: number, k: 'sb' | 'bb' | 'ante' | 'min', v: string) => {
     const n = parseFloat(v.replace(',', '.'));
     if (!Number.isFinite(n)) return;
     const lv = levels.map((l) => ({ ...l }));

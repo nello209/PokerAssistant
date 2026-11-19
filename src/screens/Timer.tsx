@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import qrcode from 'qrcode-generator';
-import { useAppState, setState, getState, timerElapsed, timerPosition, fmtNum, type Level, type AnteType } from '../state.ts';
+import { useAppState, setState, getState, timerElapsed, timerPosition, fmtNum, levelAnte, type Level, type AnteType } from '../state.ts';
 import { InfoInline } from '../components/Info.tsx';
 
 const mmss = (ms: number) => {
@@ -82,8 +82,8 @@ export function Timer() {
     <div>
       <div class="center muted" style={{ fontSize: full ? '22px' : '15px' }}>Livello {pos.index + 1} di {L.length}</div>
       <div class="timer-big" style={{ color: pos.remaining < 60000 && s.timer.running ? 'var(--amber)' : undefined }}>{finished ? 'FINE' : mmss(pos.remaining)}</div>
-      <div class="timer-blinds">{fmtNum(lv.sb, 0)} / {fmtNum(lv.bb, 0)}{lv.ante ? <span class="muted" style={{ fontSize: '0.55em' }}> ante {fmtNum(lv.ante, 0)}</span> : null}</div>
-      {next && <div class="center muted mt" style={{ fontSize: full ? '22px' : '15px' }}>Poi: {fmtNum(next.sb, 0)}/{fmtNum(next.bb, 0)}{next.ante ? ` ante ${fmtNum(next.ante, 0)}` : ''} · {next.min}'</div>}
+      <div class="timer-blinds">{fmtNum(lv.sb, 0)} / {fmtNum(lv.bb, 0)}{levelAnte(s, lv) ? <span class="muted" style={{ fontSize: '0.55em' }}> ante {fmtNum(levelAnte(s, lv), 0)}</span> : null}</div>
+      {next && <div class="center muted mt" style={{ fontSize: full ? '22px' : '15px' }}>Poi: {fmtNum(next.sb, 0)}/{fmtNum(next.bb, 0)}{levelAnte(s, next) ? ` ante ${fmtNum(levelAnte(s, next), 0)}` : ''} · {next.min}'</div>}
     </div>
   );
 
@@ -115,7 +115,7 @@ export function Timer() {
         <span>Il timer aggiorna il livello in alto (bui usati in tutta l'app)</span>
       </label>
       {share && <ShareBox url={share} />}
-      <p class="tiny muted">I livelli si modificano dalla barra in alto → Modifica i livelli. Il timer continua a contare anche se chiudi l'app: si basa sull'orario di avvio.</p>
+      <p class="tiny muted">La struttura si crea o si modifica toccando la barra in alto → scheda Struttura. Il timer continua a contare anche se chiudi l'app: si basa sull'orario di avvio.</p>
     </div>
   );
 }

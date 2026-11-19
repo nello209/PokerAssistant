@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { useAppState, setState, derive, timerElapsed, timerPosition, fmtNum } from './state.ts';
+import { useAppState, setState, derive, timerElapsed, timerPosition, fmtNum, fmtChips, fmtAmount, levelAnte } from './state.ts';
 import { bandFor } from './engine/openRanges.ts';
 import { Setup } from './screens/Setup.tsx';
 import { Preflop } from './screens/Preflop.tsx';
@@ -48,18 +48,20 @@ export function App() {
 
   const d = derive(s);
   const band = bandFor(d.effBB);
+  const unit = s.settings.unit;
+  const ante = levelAnte(s, d.level);
   return (
     <div class="app">
-      <button type="button" class="topbar" onClick={() => setSetupOpen(true)} aria-label="Configurazione torneo">
-        <div class="lvl">
-          <div>Liv. <b>{s.config.levelIndex + 1}</b> · {s.config.players} giocatori</div>
-          <div><b>{fmtNum(d.level.sb, 0)}/{fmtNum(d.level.bb, 0)}</b>{d.level.ante ? ` (ante ${fmtNum(d.level.ante, 0)}${s.config.anteType === 'bb' ? ' BB' : ''})` : ''}</div>
-        </div>
-        <div class="stack">
-          <div class="big">{fmtNum(d.myBB)} BB</div>
-          <div class="small">eff {fmtNum(d.effBB)} · M {fmtNum(d.m)} · <span class={'zone ' + band.id}>{band.nome}</span></div>
-        </div>
-      </button>
+      <div class="topbar">
+        <button type="button" class="lvl" onClick={() => setSetupOpen(true)} aria-label="Configurazione torneo">
+          <div>Liv. <b>{s.config.levelIndex + 1}</b> · {s.config.players} al tavolo ⚙</div>
+          <div><b>{fmtChips(d.level.sb)}/{fmtChips(d.level.bb)}</b>{ante ? ` ante ${fmtChips(ante)}${s.config.anteType === 'bb' ? ' BB' : ''}` : ''}</div>
+        </button>
+        <button type="button" class="stack" onClick={() => setState((x) => { x.settings.unit = x.settings.unit === 'bb' ? 'chips' : 'bb'; })} aria-label="Cambia unità: BB o fiches">
+          <div class="big">{fmtAmount(s.config.myStack, d.level.bb, unit)} <span class="unit-sw">⇄</span></div>
+          <div class="small">eff {fmtAmount(d.effStack, d.level.bb, unit)} · M {fmtNum(d.m)} · <span class={'zone ' + band.id}>{band.nome}</span></div>
+        </button>
+      </div>
 
       <main>
         {tab === 'preflop' && <Preflop />}
@@ -79,7 +81,7 @@ export function App() {
         </div>
       </nav>
 
-      {setupOpen && <Setup onClose={() => { setSetupOpen(false); setState((x) => { x.settings.seenSetup = true; }); }} />}
+      {setupOpen && <Setup firstTime={!s.settings.seenSetup} onClose={() => { setSetupOpen(false); setState((x) => { x.settings.seenSetup = true; }); }} />}
       {sharedPrompt && (
         <div class="modal-bg">
           <div class="modal">

@@ -10,7 +10,9 @@ c'è anche un glossario completo.
 
 | Scheda | A cosa serve |
 |---|---|
-| **Barra in alto** | Livello, bui, il tuo stack in BB, stack effettivo, M, fascia di stack. Toccala per configurare il torneo (giocatori 2–10, struttura dei bui, livello, stack). |
+| **Barra in alto** | Livello, bui, il tuo stack, stack effettivo, M, fascia di stack. A sinistra (⚙) apri la configurazione; tocca lo stack a destra (⇄) per passare da **BB a fiches** e viceversa. |
+| **Configurazione: Struttura** | Partecipanti, stack iniziale, durata massima (1–6 ore), ante facoltative (nessuna / a testa / BB ante), durata dei livelli → l'app **genera la struttura dei bui** con orari, bui arrotondati a valori comodi e livelli di riserva. |
+| **Configurazione: In gioco** | Livello attuale (o lo aggiorna il timer), giocatori ancora al tavolo, il tuo stack e quello degli avversari in BB o fiches. |
 | **Preflop** | Range di apertura 13×13 per la tua posizione, adattato al numero di giocatori e allo stack. Profili Prudente (dal foglio Excel) e Standard. Celle modificabili. Sotto i 10 BB passa da solo al push/fold. |
 | **Mano** | Selettore carte rapido → "Cosa ho", outs puliti con percentuali, equity contro 1–9 avversari (mano precisa, range o casuale), pot odds con verdetto CALL +EV / FOLD. |
 | **Push/Fold** | Range di shove e di call contro shove calcolati con l'equilibrio di Nash (heads-up esatto nel modello, tavolo pieno approssimato). |
@@ -43,8 +45,8 @@ Altri comandi utili:
 ```powershell
 npm test
 ```
-Esegue i 67 test automatici: valutatore delle mani su tutte le 133.784.560 mani da 7 carte, equity (AA vs KK ≈ 82%),
-formule della Fase 1, ICM, posizioni, push/fold ed esempi delle spiegazioni.
+Esegue i 73 test automatici: valutatore delle mani su tutte le 133.784.560 mani da 7 carte, equity (AA vs KK ≈ 82%),
+formule della Fase 1, ICM, posizioni, push/fold, generatore della struttura dei bui (375 scenari) ed esempi delle spiegazioni.
 
 ```powershell
 npm run build
@@ -61,9 +63,8 @@ src/data/          ← DATI, modificabili senza toccare il codice
   guida.json         consigli e avvertenze (dal foglio, corretti come in VALIDAZIONE.md)
   spiegazioni.json   testi dei pulsanti "Cos'è?"
   avversari.json     profili avversari
-  strutture.json     strutture dei bui di esempio
   preflop-equity.json  equity 169×169 calcolata (rigenerabile con: npm run gen:equity)
-src/engine/        ← calcoli: valutatore, equity, outs, pot odds, ICM, push/fold, posizioni
+src/engine/        ← calcoli: valutatore, equity, outs, pot odds, ICM, push/fold, posizioni, struttura dei bui
 src/worker/        ← Web Worker: i calcoli pesanti non bloccano l'interfaccia
 src/screens/       ← schermate
 tests/             ← test automatici

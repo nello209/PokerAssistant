@@ -280,7 +280,10 @@ function EquityView({ eq, busy, err, ready, n }: { eq: EquityResult | null; busy
   );
 }
 
-function PotOdds({ equity, boardLen, bb }: { equity: number | null; boardLen: number; bb: number }) {
+function PotOdds({ equity, boardLen, bb: bbRaw }: { equity: number | null; boardLen: number; bb: number }) {
+  const unit = useAppState().settings.unit;
+  const bb = bbRaw || 1;
+  // importi salvati in fiches, mostrati nell'unità scelta (BB o fiches)
   const [pot, setPot] = useState(0);
   const [call, setCall] = useState(0);
   const [manual, setManual] = useState<number | null>(null);
@@ -288,13 +291,17 @@ function PotOdds({ equity, boardLen, bb }: { equity: number | null; boardLen: nu
   const e = manual !== null ? manual / 100 : equity;
   const req = pot > 0 && call > 0 ? requiredEquityFromPot(pot, call) : null;
   const ev = req !== null && e !== null ? callEV(e, pot, call) : null;
-  const step = Math.max(bb || 1, 1);
+  const inBB = unit === 'bb';
+  const show = (chips: number) => (inBB ? Math.round((chips / bb) * 100) / 100 : chips);
+  const read = (v: number) => (inBB ? v * bb : v);
+  const step = inBB ? 0.5 : Math.max(bb, 1);
+  const u = inBB ? 'BB' : 'fiches';
   return (
     <div class="card">
       <SecHead label="Pot odds: devo chiamare?" info="potOdds" />
       <div class="row">
-        <div class="grow"><NumField label="Piatto (con la sua puntata)" value={pot} step={step} onChange={setPot} /></div>
-        <div class="grow"><NumField label="Da chiamare" value={call} step={step} onChange={setCall} /></div>
+        <div class="grow"><NumField label={`Piatto, con la sua puntata (${u})`} value={show(pot)} step={step} onChange={(v) => setPot(read(v))} /></div>
+        <div class="grow"><NumField label={`Da chiamare (${u})`} value={show(call)} step={step} onChange={(v) => setCall(read(v))} /></div>
       </div>
       <div class="row small mb wrap">
         <span class="muted">Equity:</span>
@@ -308,7 +315,7 @@ function PotOdds({ equity, boardLen, bb }: { equity: number | null; boardLen: nu
             <span>Equity minima</span><b>{fmtPct(req)}</b>
             <span>Pot odds</span><span>{fmtNum((pot) / call, 2)} : 1</span>
             {e !== null && <><span>La tua equity</span><b>{fmtPct(e)}</b></>}
-            {ev !== null && <><span>EV del call</span><b class={ev > 0 ? 'good' : ev < 0 ? 'bad' : ''}>{ev > 0 ? '+' : ''}{fmtChips(ev)} ({ev > 0 ? '+' : ''}{fmtNum(ev / (bb || 1), 2)} BB)</b></>}
+            {ev !== null && <><span>EV del call</span><b class={ev > 0 ? 'good' : ev < 0 ? 'bad' : ''}>{inBB ? `${ev > 0 ? '+' : ''}${fmtNum(ev / bb, 2)} BB (${ev > 0 ? '+' : ''}${fmtChips(ev)} fiches)` : `${ev > 0 ? '+' : ''}${fmtChips(ev)} fiches (${ev > 0 ? '+' : ''}${fmtNum(ev / bb, 2)} BB)`}</b></>}
           </div>
           {e !== null && ev !== null && (
             <div class={'verdict ' + (Math.abs(e - req) < 0.01 ? 'even' : ev > 0 ? 'call' : 'fold')}>

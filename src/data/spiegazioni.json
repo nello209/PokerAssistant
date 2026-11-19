@@ -7,10 +7,34 @@
         "BB (big blind) è il buio grande del livello attuale. Contare lo stack in BB invece che in fiches rende tutto confrontabile: 3000 fiches sono tante con bui 25/50 (60 BB) e poche con bui 300/600 (5 BB).",
         "Eff (stack effettivo) è quanto puoi davvero vincere o perdere in una mano: il più piccolo fra il tuo stack e quello dell'avversario. Se hai 40 BB e lui 15 BB, in quella mano giocate per 15 BB.",
         "M indica quanti giri del tavolo puoi sopravvivere pagando solo bui e ante senza giocare mani. Più è basso, più devi prendere iniziativa.",
-        "La zona colorata (40+, 20–40, 10–20, <10) dice in che fascia di stack sei: l'app adatta i consigli a questa fascia."
+        "La zona colorata (40+, 20–40, 10–20, <10) dice in che fascia di stack sei: l'app adatta i consigli a questa fascia.",
+        "Tocca il tuo stack (a destra, simbolo ⇄) per vederlo in BB o in fiches: la scelta vale anche per i campi dove inserisci gli importi. Tocca la parte sinistra (⚙) per livello, giocatori e struttura."
       ],
       "esempio": "Bui 100/200, hai 6000 fiches → 30 BB. Il tuo avversario ne ha 2400 → stack effettivo 12 BB.",
       "alTavolo": "Aggiorna il tuo stack ogni tanto toccando la barra: tutti i consigli dipendono da lì."
+    },
+    "ante": {
+      "titolo": "Le ante (facoltative)",
+      "testo": [
+        "Le ante sono una piccola puntata obbligatoria in più, oltre ai bui, che si mette nel piatto prima di distribuire le carte. Non sono obbligatorie: in molti tornei casalinghi non si usano.",
+        "Nessuna: si giocano solo small blind e big blind. È la scelta più semplice.",
+        "A testa: ogni giocatore mette una fiche piccola (di solito circa 1/8 del big blind) a ogni mano. Più fiches nel piatto, ma bisogna ricordarsi di raccoglierle da tutti.",
+        "BB ante: le ante le paga tutte il giocatore di big blind, con un'unica puntata pari al big blind. Il piatto è lo stesso, ma è molto più veloce da gestire: è il sistema usato oggi nei tornei.",
+        "Perché metterle: con un piatto iniziale più ricco conviene giocare più mani e attaccare i bui, quindi c'è più azione e il torneo scorre. Nell'app cambiano M, piatto iniziale e i range di push/fold (con le ante si va all-in più spesso). La struttura le introduce dopo i primi livelli."
+      ],
+      "esempio": "Bui 200/400 con ante a testa 50 a 8 giocatori: nel piatto ci sono 600 + 8×50 = 1000 fiches invece di 600. Con BB ante il big blind mette 400 + 400 e il piatto è 1000 uguale.",
+      "alTavolo": "Se giocate per la prima volta lasciate \"Nessuna\". Se volete più azione usate \"BB ante\": è la più comoda."
+    },
+    "struttura": {
+      "titolo": "La struttura dei bui",
+      "testo": [
+        "La struttura è l'elenco dei livelli: per ogni livello quanto valgono i bui (e le ante) e quanto dura. Ogni volta che il timer cambia livello i bui salgono, così gli stack valgono sempre meno BB e prima o poi qualcuno resta senza fiches.",
+        "L'app calcola le fiches totali in gioco (partecipanti × stack iniziale) e fa crescere i bui in modo regolare, così che all'ora massima che avete scelto il torneo sia praticamente finito: in quel momento il big blind vale circa 1/15 di tutte le fiches.",
+        "Si parte, quando il tempo lo permette, con 100 BB a testa: tanto gioco dopo il flop. Con poco tempo si parte più corti e i bui salgono più in fretta.",
+        "I livelli con l'asterisco sono di riserva: se il torneo si allunga si continua con quelli. Il numero di livelli non è fisso: dipende da tempo, partecipanti e stack."
+      ],
+      "esempio": "8 giocatori con 10.000 fiches e 3 ore: 12 livelli da 15 minuti, da 50/100 a 2.500/5.000.",
+      "alTavolo": "Scegliete insieme stack e durata prima di iniziare, premete \"Usa questa struttura\" e fate partire il timer."
     },
     "posizioni": {
       "titolo": "Le posizioni",
